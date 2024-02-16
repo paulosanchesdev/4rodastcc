@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,13 +144,40 @@
                 <button class="buy-button">Comprar</button></a>
               </div>
 
+              <div class="audiobotao">
               
-             
+              <button id="speakButton">🔊</button>
+
+              <script>
+                document.addEventListener("selectionchange", function() {
+                  speakText();
+                });
+            
+                function speakText() {
+                  var textToSpeak = window.getSelection().toString().trim();
+            
+                  if (textToSpeak !== '') {
+                    if ('speechSynthesis' in window) {
+                      var synthesis = window.speechSynthesis;
+                      var utterance = new SpeechSynthesisUtterance(textToSpeak);
+            
+                      synthesis.speak(utterance);
+                    } else {
+                      alert("Desculpe, a Web Speech API não é suportada neste navegador.");
+                    }
+                  }
+                }
+              </script>
+
+             </div>
+              
+              </div>
+
              
               <footer class="footer">
-                <nav class="nav1">
-                  <img src="imagensp/Principaismarcas.gif.gif"width="1300px" height="150px">
-                </nav>
+                <div class="footer img">
+                  <img src="imagensp/marcasrodape.gif">
+                </div>
                   <div class="waves">
                   <div class="wave" id="wave1"></div>
                   <div class="wave" id="wave2"></div>
@@ -175,12 +203,14 @@
                   <li class="menu__item"><a class="menu__link" href="pages/cidades1.html"target="_blank">Cidades</a></li>
                   <li class="menu__item"><a class="menu__link" href="pages/marcas.html" target="_blank">Marcas</a></li>
                   <li class="menu__item"><a class="menu__link" href="https://quatrorodas.abril.com.br/noticias/" target="_blank">Noticias</a></li>
-                  <li class="menu__item"><a class="menu__link" href="pages/trabalheconosco.html" target="_blank">Trabalhe conosco</a></li>
+                  <li class="menu__item"><a class="menu__link" href="pages/trabalheconosco.html" target="_blank">Trabalhe conosco</a></li> 
           
                 </ul>
-                <center>
-                  <p>&copy;2024 Paulo Sanches | Direitos Reservados</p>
-                </center>
+             
+            
+               
+              </center>
+             
                 
               </footer>
               <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
@@ -286,6 +316,45 @@ function handleKeyPress(event) {
 
 
 
+
 </script>
+
+
+
+
+
+
+
+
+<div vw class="enabled">
+  <div vw-access-button class="active"></div>
+  <div vw-plugin-wrapper>
+    <div class="vw-plugin-top-wrapper"></div>
+  </div>
+</div>
+<script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+<script>
+  new window.VLibras.Widget('https://vlibras.gov.br/app');
+</script>
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<a href="https://wa.me/55(aqui seu numero com ddd | tudo junto)?text=Adorei%20seu%20artigo" style="position:fixed;
+
+width:60px;height:60px;bottom:40px;right:5px;
+top: 20%;
+background-color:#F2AC57;
+opacity: 0.9;
+color:black;border-radius:50px;text-align:center;font-size:30px;box-shadow: 1px 1px 2px #888;
+z-index:1000;" target="_blank">
+
+<i style="margin-top:15px" class="fa fa-whatsapp"></i>
+</a>
+
+
+
+
 </body>
+
 </html>
