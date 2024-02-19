@@ -136,8 +136,9 @@ body {
     color: #fff; }
   
   ::selection {
-    background-color: #FA6862;
-    color: #fff; }
+    background-color: #f1c083fd;
+    color: #333; }
+    
   
   /*
    *  Reset bootstrap's default style
