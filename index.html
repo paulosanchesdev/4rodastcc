@@ -13,6 +13,31 @@
   <title>4Rodas</title>
 </head>
 <body>
+
+
+
+  <!-- Importar o Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics.js"></script>
+<!-- TODO: Adicionar SDKs para produtos Firebase que você deseja usar -->
+
+<script>
+  // Sua configuração do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyARM7eBn1wzll1zKQQI70iP7jXm0NBGPLo",
+    authDomain: "cadastro-produtos-a642a.firebaseapp.com",
+    projectId: "cadastro-produtos-a642a",
+    storageBucket: "cadastro-produtos-a642a.appspot.com",
+    messagingSenderId: "384198356857",
+    appId: "1:384198356857:web:2eb28df9174b419cc4c9a8",
+    measurementId: "G-QGGZKSHX40"
+  };
+
+  // Inicializar o Firebase
+  firebase.initializeApp(firebaseConfig);
+  const analytics = firebase.analytics();
+</script>
+
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -239,21 +264,24 @@
 
                                             <div class="products">
 
-                                                <div class="product">
-                                                    <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
-                                                    <h3>Polia-Livre Ponta Altenador/IVECO/NEW DAILY APOS 2008  </h3>
-                                                    <p class="price">R$ 312,85</p>
-                                                    <p>ou 6x de R$ 52,14</p>
-                                                    <a href="pages/1homecarpolia.html" class="buy-link" target="_blank">
-                                                    <button class="buy-button">Comprar</button></a>
-                                                  </div>
-                                        
+                                              <div class="product" id="produto1">
+                                                <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
+                                                <h3>Polia-Livre Ponta Altenador/IVECO/NEW DAILY APOS 2008</h3>
+                                                <p class="price">R$ 312,85</p>
+                                                <p>ou 6x de R$ 52,14</p>
+                                                <p id="estoque_produto1">Quantidade em Estoque: 10</p>
+                                                <button onclick="atualizarEstoque('Polia')">Atualizar Estoque</button>
+                                                <a href="pages/2homecarcabecote.html" class="buy-link" target="_blank">
+                                                  <button class="buy-button">Comprar</button></a>
+                                            </div>
                                         
                                                   <div class="product">
                                                     <img src="imagensp/cabecotehome.jpeg" alt="Produto 1" class="zoomable">
                                                     <h3>Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</h3>
                                                     <p class="price">R$ 6.903,48 </p>
                                                     <p> ou 6x de R$ 1.150,58</p>
+                                                    <p id="estoque_produto1">Quantidade em Estoque: 10</p>
+                                                <button onclick="atualizarEstoque('Polia')">Atualizar Estoque</button>
                                                     <a href="pages/2homecarcabecote.html" class="buy-link" target="_blank">
                                                     <button class="buy-button">Comprar</button></a>
                                                   </div>
@@ -263,6 +291,8 @@
                                                     <h3>Anel de encosto - Man D08 34 4 CILS / D08 6 CILS Diesel </h3>
                                                     <p class="price">R$ 196,21 </p>
                                                     <p> ou 6x de R$ 32,70</p>
+                                                    <p id="estoque_produto1">Quantidade em Estoque: 10</p>
+                                                <button onclick="atualizarEstoque('Polia')">Atualizar Estoque</button>
                                                     <a href="pages/3homecaranel.html" class="buy-link" target="_blank">
                                                     <button class="buy-button">Comprar</button></a>
                                                   </div>
@@ -379,6 +409,45 @@ z-index:1000;" target="_blank">
           <button id="speakButton">🔊</button>
 
           <script>
+
+
+ // Função para atualizar o estoque no Firebase
+function atualizarEstoque(idProduto) {
+    // Recupera a quantidade em estoque do campo correspondente
+    const estoqueElement = document.getElementById(`estoque_${idProduto}`);
+    const quantidadeAtual = parseInt(estoqueElement.innerText.split(":")[1].trim());
+
+    // Atualiza a quantidade no Firebase (substitua com sua lógica de atualização)
+    const novaQuantidade = quantidadeAtual - 1; // Subtrai 1 como exemplo
+    // Aqui você precisa adicionar a lógica para atualizar o valor no Firebase com a novaQuantidade
+
+    // Atualiza a exibição na página
+    estoqueElement.innerText = `Quantidade em Estoque: ${novaQuantidade}`;
+}
+  // Chame a função de atualização ao autenticar com sucesso
+  function authenticate() {
+    var username = document.getElementById('username').value;
+    var password = document.getElementById('password').value;
+
+    // Comparando com as credenciais definidas
+    if (username === usuarioCorreto && password === senhaCorreta) {
+      document.getElementById('overlay').style.visibility = 'hidden';
+      document.getElementById('content').style.display = 'block';
+
+      // Atualizar dinamicamente a quantidade em estoque
+      atualizarEstoque();
+    } else {
+      alert('Credenciais inválidas. Tente novamente.');
+    }
+  }
+
+
+
+
+
+
+
+
             document.addEventListener("selectionchange", function() {
               speakText();
             });
