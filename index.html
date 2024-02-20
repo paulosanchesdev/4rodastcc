@@ -32,39 +32,10 @@
       measurementId: "G-QGGZKSHX40"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+// Inicializar o Firebase
+firebase.initializeApp(firebaseConfig);
 
-    function atualizarEstoque(nomeProduto) {
-      const produtoRef = database.ref('produtos/' + nomeProduto);
-
-      produtoRef.once('value', (snapshot) => {
-        const quantidade = snapshot.val().quantidade;
-        const estoqueElement = document.getElementById('estoque_' + nomeProduto.toLowerCase());
-
-        if (estoqueElement) {
-          estoqueElement.innerText = 'Quantidade em Estoque: ' + quantidade;
-          // Após atualizar o estoque, chame a função para atualizar a quantidade total
-          atualizarQuantidadeTotal();
-        }
-      });
-    }
-// Função para atualizar o estoque de um produto específico
-function atualizarEstoque(nomeProduto) {
-  const produtoRef = database.ref('produtos/' + nomeProduto);
-
-  produtoRef.once('value', (snapshot) => {
-    const quantidade = snapshot.val().quantidade;
-    const estoqueElement = document.getElementById('estoque_' + nomeProduto.toLowerCase());
-    const quantidadeElement = document.getElementById('quantidade_' + nomeProduto.toLowerCase());
-
-    if (estoqueElement && quantidadeElement) {
-      estoqueElement.innerText = 'Quantidade em Estoque: ' + quantidade;
-      quantidadeElement.innerText = quantidade;
-    }
-  });
-}
-
+const database = firebase.database();
 
 
     </script>
@@ -459,44 +430,6 @@ z-index:1000;" target="_blank">
 
           <script>
 
-
- // Função para atualizar o estoque no Firebase
-function atualizarEstoque(idProduto) {
-    // Recupera a quantidade em estoque do campo correspondente
-    const estoqueElement = document.getElementById(`estoque_${idProduto}`);
-    const quantidadeAtual = parseInt(estoqueElement.innerText.split(":")[1].trim());
-
-    // Atualiza a quantidade no Firebase (substitua com sua lógica de atualização)
-    const novaQuantidade = quantidadeAtual - 1; // Subtrai 1 como exemplo
-    // Aqui você precisa adicionar a lógica para atualizar o valor no Firebase com a novaQuantidade
-
-    // Atualiza a exibição na página
-    estoqueElement.innerText = `Quantidade em Estoque: ${novaQuantidade}`;
-}
-  // Chame a função de atualização ao autenticar com sucesso
-  function authenticate() {
-    var username = document.getElementById('username').value;
-    var password = document.getElementById('password').value;
-
-    // Comparando com as credenciais definidas
-    if (username === usuarioCorreto && password === senhaCorreta) {
-      document.getElementById('overlay').style.visibility = 'hidden';
-      document.getElementById('content').style.display = 'block';
-
-      // Atualizar dinamicamente a quantidade em estoque
-      atualizarEstoque();
-    } else {
-      alert('Credenciais inválidas. Tente novamente.');
-    }
-  }
-
-
-
-
-
-
-
-
             document.addEventListener("selectionchange", function() {
               speakText();
             });
@@ -508,6 +441,18 @@ function atualizarEstoque(idProduto) {
                 if ('speechSynthesis' in window) {
                   var synthesis = window.speechSynthesis;
                   var utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+
+                   // Configurações adicionais
+                     utterance.lang = 'pt-BR'; // Define o idioma da voz (neste caso, português do Brasil)
+                     utterance.rate = 1.3; // Velocidade da leitura (1.0 é a velocidade padrão, ajuste conforme necessário)
+                     utterance.volume = 1.0; // Volume da voz (0.0 a 1.0)
+                     utterance.pitch = 2.0; // Tom da voz (0.0 a 2.0, 1.0 é o tom padrão)
+
+                    // Evento para lidar com o término da leitura
+                    utterance.onend = function() {
+                    console.log('Leitura concluída.');
+                    };
         
                   synthesis.speak(utterance);
                 } else {
