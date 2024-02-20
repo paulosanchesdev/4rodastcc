@@ -24,18 +24,35 @@
 <script>
   // Sua configuração do Firebase
   const firebaseConfig = {
-    apiKey: "AIzaSyARM7eBn1wzll1zKQQI70iP7jXm0NBGPLo",
-    authDomain: "cadastro-produtos-a642a.firebaseapp.com",
-    projectId: "cadastro-produtos-a642a",
-    storageBucket: "cadastro-produtos-a642a.appspot.com",
-    messagingSenderId: "384198356857",
-    appId: "1:384198356857:web:2eb28df9174b419cc4c9a8",
-    measurementId: "G-QGGZKSHX40"
-  };
-
+  apiKey: "AIzaSyARM7eBn1wzll1zKQQI70iP7jXm0NBGPLo",
+  authDomain: "cadastro-produtos-a642a.firebaseapp.com",
+  databaseURL: "https://cadastro-produtos-a642a-default-rtdb.firebaseio.com",
+  projectId: "cadastro-produtos-a642a",
+  storageBucket: "cadastro-produtos-a642a.appspot.com",
+  messagingSenderId: "384198356857",
+  appId: "1:384198356857:web:2eb28df9174b419cc4c9a8",
+  measurementId: "G-QGGZKSHX40"
+};
   // Inicializar o Firebase
   firebase.initializeApp(firebaseConfig);
-  const analytics = firebase.analytics();
+
+  const database = firebase.database();
+
+
+
+
+  function atualizarEstoque(nomeProduto) {
+  const produtoRef = database.ref('produtos/' + nomeProduto);
+
+  produtoRef.once('value', (snapshot) => {
+    const quantidade = snapshot.val().quantidade;
+    const estoqueElement = document.getElementById('estoque_' + nomeProduto.toLowerCase());
+
+    if (estoqueElement) {
+      estoqueElement.innerText = 'Quantidade em Estoque: ' + quantidade;
+    }
+  });
+}
 </script>
 
     <!DOCTYPE html>
