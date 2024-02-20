@@ -11,49 +11,69 @@
   <link rel="stylesheet" href="CSS/4rodascompleto.css">
  
   <title>4Rodas</title>
-</head>
-<body>
 
 
 
-  <!-- Importar o Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics.js"></script>
-<!-- TODO: Adicionar SDKs para produtos Firebase que você deseja usar -->
+  <head>
+  <!-- Seus scripts do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js"></script>
 
-<script>
-  // Sua configuração do Firebase
-  const firebaseConfig = {
-  apiKey: "AIzaSyARM7eBn1wzll1zKQQI70iP7jXm0NBGPLo",
-  authDomain: "cadastro-produtos-a642a.firebaseapp.com",
-  databaseURL: "https://cadastro-produtos-a642a-default-rtdb.firebaseio.com",
-  projectId: "cadastro-produtos-a642a",
-  storageBucket: "cadastro-produtos-a642a.appspot.com",
-  messagingSenderId: "384198356857",
-  appId: "1:384198356857:web:2eb28df9174b419cc4c9a8",
-  measurementId: "G-QGGZKSHX40"
-};
-  // Inicializar o Firebase
-  firebase.initializeApp(firebaseConfig);
+  <!-- Seu código JavaScript -->
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyARM7eBn1wzll1zKQQI70iP7jXm0NBGPLo",
+      authDomain: "cadastro-produtos-a642a.firebaseapp.com",
+      databaseURL: "https://cadastro-produtos-a642a-default-rtdb.firebaseio.com",
+      projectId: "cadastro-produtos-a642a",
+      storageBucket: "cadastro-produtos-a642a.appspot.com",
+      messagingSenderId: "384198356857",
+      appId: "1:384198356857:web:2eb28df9174b419cc4c9a8",
+      measurementId: "G-QGGZKSHX40"
+    };
 
-  const database = firebase.database();
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
+    function atualizarEstoque(nomeProduto) {
+      const produtoRef = database.ref('produtos/' + nomeProduto);
 
+      produtoRef.once('value', (snapshot) => {
+        const quantidade = snapshot.val().quantidade;
+        const estoqueElement = document.getElementById('estoque_' + nomeProduto.toLowerCase());
 
-
-  function atualizarEstoque(nomeProduto) {
+        if (estoqueElement) {
+          estoqueElement.innerText = 'Quantidade em Estoque: ' + quantidade;
+          // Após atualizar o estoque, chame a função para atualizar a quantidade total
+          atualizarQuantidadeTotal();
+        }
+      });
+    }
+// Função para atualizar o estoque de um produto específico
+function atualizarEstoque(nomeProduto) {
   const produtoRef = database.ref('produtos/' + nomeProduto);
 
   produtoRef.once('value', (snapshot) => {
     const quantidade = snapshot.val().quantidade;
     const estoqueElement = document.getElementById('estoque_' + nomeProduto.toLowerCase());
+    const quantidadeElement = document.getElementById('quantidade_' + nomeProduto.toLowerCase());
 
-    if (estoqueElement) {
+    if (estoqueElement && quantidadeElement) {
       estoqueElement.innerText = 'Quantidade em Estoque: ' + quantidade;
+      quantidadeElement.innerText = quantidade;
     }
   });
 }
-</script>
+
+
+
+    </script>
+</head>
+<body>
+
+
+
+
 
     <!DOCTYPE html>
     <html lang="en">
@@ -288,14 +308,21 @@
 
                                               <div class="product" id="produto1">
                                                 <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
-                                                <h3>Polia-Livre Ponta Altenador/IVECO/NEW DAILY APOS 2008</h3>
+                                                <h3>Polia-Livre Ponta Alternador/IVECO/NEW DAILY APÓS 2008</h3>
                                                 <p class="price">R$ 312,85</p>
                                                 <p>ou 6x de R$ 52,14</p>
-                                                <p id="estoque_produto1">Quantidade em Estoque: 10</p>
-                                                <button onclick="atualizarEstoque('Polia')">Atualizar Estoque</button>
+                                                <p id="estoque_polia">Quantidade em Estoque: <span id="quantidade_polia"></span></p>
+                                                <button onclick="atualizarEstoque('polia')">Atualizar Estoque</button>
                                                 <a href="pages/2homecarcabecote.html" class="buy-link" target="_blank">
-                                                  <button class="buy-button">Comprar</button></a>
-                                            </div>
+                                                  <button class="buy-button">Comprar</button>
+                                                </a>
+                                              </div>
+                                              
+                                                <script>
+                                                  document.addEventListener('DOMContentLoaded', function () {
+                                                    atualizarQuantidadeTotal();
+                                                  });
+                                                </script>
                                         
                                                   <div class="product">
                                                     <img src="imagensp/cabecotehome.jpeg" alt="Produto 1" class="zoomable">
