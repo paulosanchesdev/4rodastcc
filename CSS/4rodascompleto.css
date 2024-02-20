@@ -1111,7 +1111,7 @@ body {
     margin-top: 20px;
     display: flex;
     align-items: center;
-    animation: pulse 5s infinite;
+    animation: pulse 4s infinite;
     opacity: 0.9;
   }
   
