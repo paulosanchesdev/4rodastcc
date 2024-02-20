@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reprodução Automática de Áudio</title>
+</head>
+<body>
+
+<script>
+  // Função para falar uma mensagem usando a API de Fala
+  function falarMensagem(mensagem) {
+    const utterance = new SpeechSynthesisUtterance(mensagem);
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // Chamar a função ao carregar a página
+  window.addEventListener('load', function() {
+    // Adicione aqui a lógica para falar a mensagem ao entrar na página
+  });
+
+  // Chamar a função ao clicar em um botão
+  function reproduzirMensagem() {
+    falarMensagem('Bem-vindo ao nosso site!, caso tenha dificuldade em visualizar clique com o botão esquerdo do mouse sobre a palavra');
+  }
+</script>
+
+<!-- Adicione um botão para ativar a reprodução de áudio -->
+<button onclick="reproduzirMensagem()">Reproduzir Mensagem</button>
+
+</body>
+</html>

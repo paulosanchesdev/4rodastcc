@@ -1099,5 +1099,34 @@ body {
     
   }
   
+  .ouvir {
+    /* Adicione estilos personalizados para o botão */
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    animation: pulse 5s infinite;
+    opacity: 0.9;
+  }
   
-  
+  /* Estilos adicionais para o ícone de audição */
+  .ouvir i {
+    margin-right: 5px;
+  }
+  @keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

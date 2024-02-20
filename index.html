@@ -15,6 +15,8 @@
 
 
   <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <!-- ... outras tags head ... -->
   <!-- Seus scripts do Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js"></script>
@@ -117,6 +119,7 @@ const database = firebase.database();
         }
 
 
+
  
       </style>
       <title>Seu Site</title>
@@ -131,10 +134,36 @@ const database = firebase.database();
             <label for="password">Senha:</label>
             <input type="password" id="password" required>
             <button type="button" onclick="authenticate()">Entrar</button>
+            
+            
           </form>
+          <script>
+            // Função para falar uma mensagem usando a API de Fala
+            function falarMensagem(mensagem) {
+              const utterance = new SpeechSynthesisUtterance(mensagem);
+              window.speechSynthesis.speak(utterance);
+            }
+          
+            // Chamar a função ao carregar a página
+            window.addEventListener('load', function() {
+              // Adicione aqui a lógica para falar a mensagem ao entrar na página
+            });
+          
+            // Chamar a função ao clicar em um botão
+            function reproduzirMensagem() {
+              falarMensagem('Bem-vindo ao nosso site!, caso tenha dificuldade em visualizar clique com o botão esquerdo do mouse sobre a palavra');
+            }
+          </script>
+          
+          <!-- Adicione um botão para ativar a reprodução de áudio -->
+          <button class="ouvir" onclick="reproduzirMensagem()">
+            <i class="fas fa-volume-up"></i> Reproduzir Mensagem
+          </button>
+
+         
         </div>
       </div>
-    
+       
       <!-- Conteúdo do seu site -->
       <div id="content">
         <main class="site-wrapper">
@@ -445,7 +474,7 @@ z-index:1000;" target="_blank">
 
                    // Configurações adicionais
                      utterance.lang = 'pt-BR'; // Define o idioma da voz (neste caso, português do Brasil)
-                     utterance.rate = 1.3; // Velocidade da leitura (1.0 é a velocidade padrão, ajuste conforme necessário)
+                     utterance.rate = 1.0; // Velocidade da leitura (1.0 é a velocidade padrão, ajuste conforme necessário)
                      utterance.volume = 1.0; // Volume da voz (0.0 a 1.0)
                      utterance.pitch = 2.0; // Tom da voz (0.0 a 2.0, 1.0 é o tom padrão)
 
@@ -461,8 +490,7 @@ z-index:1000;" target="_blank">
               }
             }
           </script>
-
-         </div>
+ 
           
         </div>
 
@@ -674,7 +702,6 @@ pesquisar();
       }
   }
 </script>
-
 
 
 
