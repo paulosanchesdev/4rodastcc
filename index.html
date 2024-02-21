@@ -156,7 +156,7 @@ const database = firebase.database();
           </script>
           
           <!-- Adicione um botão para ativar a reprodução de áudio -->
-          <button class="ouvir" onclick="reproduzirMensagem()">
+          <button class="ouvir" onclick="reproduzirMensagem()" ontouchstart="reproduzirMensagem">
             <i class="fas fa-volume-up"></i> Reproduzir a Mensagem
           </button>
 
