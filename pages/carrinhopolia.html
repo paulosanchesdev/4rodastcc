@@ -52,7 +52,8 @@
       padding: 20px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      max-width: 400px;
+      max-width: auto;
+      max-height: auto;
       margin: 0 auto;
       margin: 0 auto;
       margin-top: 20px;
@@ -61,7 +62,7 @@
       background-image: url(https://i.pinimg.com/originals/6f/7c/63/6f7c63991726d61d63730682e791d78c.gif);
       opacity: 0.9;
       color:white;
-      max-height: 1200px;
+      max-height: 1600px;
     }
     
   
@@ -140,6 +141,9 @@
       border-radius: 3px;
       cursor: pointer;
     }
+    .espacomenucarrinho{
+      margin-top: 300px;
+    }
  
     </style>
 
@@ -187,7 +191,7 @@
                           <span class="icon">
 
                           </span>
-                          <span class="title">Home</span>
+                          <span class="title">carrinho polia</span>
                         </span>
                         <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
                           xmlns="http://www.w3.org/2000/svg">
@@ -305,11 +309,9 @@
                       </a>
                     </div>
 
-                    <div class="search-bar">
-                      <input type="text" id="searchInput" onkeyup="handleKeyPress(event)"
-                        placeholder="Digite sua pesquisa">
-                      <button onclick="pesquisar()">Pesquisar</button>
-                    </div>
+                   <div class="espacomenucarrinho">
+
+                   </div>
 
                     <div class="produto-frete">
                       <center>
@@ -495,7 +497,7 @@
         
                       function finalizarCompra() {
                       if (primeiroClique) {
-                      window.open("loginteste.html", "popup", "width=600,height=600");
+                      window.open("logincadastro.html", "popup", "width=600,height=600");
                     
                      } else {
                      window.open("boleto.html", "_blank");
@@ -580,7 +582,7 @@ z-index:1000;" target="_blank">
               utterance.lang = 'pt-BR'; // Define o idioma da voz (neste caso, português do Brasil)
               utterance.rate = 1.0; // Velocidade da leitura (1.0 é a velocidade padrão, ajuste conforme necessário)
               utterance.volume = 1.0; // Volume da voz (0.0 a 1.0)
-              utterance.pitch = 2.0; // Tom da voz (0.0 a 2.0, 1.0 é o tom padrão)
+              utterance.pitch = 1.0; // Tom da voz (0.0 a 2.0, 1.0 é o tom padrão)
 
               // Evento para lidar com o término da leitura
               utterance.onend = function () {
