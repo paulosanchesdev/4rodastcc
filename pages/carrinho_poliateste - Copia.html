@@ -17,31 +17,70 @@
 
   <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <!-- ... outras tags head ... -->
-    <!-- Seus scripts do Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.7/firebase-database.js"></script>
 
-    <!-- Seu código JavaScript -->
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyARM7eBn1wzll1zKQQI70iP7jXm0NBGPLo",
-        authDomain: "cadastro-produtos-a642a.firebaseapp.com",
-        databaseURL: "https://cadastro-produtos-a642a-default-rtdb.firebaseio.com",
-        projectId: "cadastro-produtos-a642a",
-        storageBucket: "cadastro-produtos-a642a.appspot.com",
-        messagingSenderId: "384198356857",
-        appId: "1:384198356857:web:2eb28df9174b419cc4c9a8",
-        measurementId: "G-QGGZKSHX40"
-      };
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
-      // Inicializar o Firebase
-      firebase.initializeApp(firebaseConfig);
+    <!--  INICIO ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
 
-      const database = firebase.database();
+<script>
+  const firebaseConfig = {
+   apiKey: "AIzaSyC87IS5wFCe812olfBR3Nx31g2WvBnFmWI",
+   authDomain: "estoque-produtos-7bdb6.firebaseapp.com",
+   projectId: "estoque-produtos-7bdb6",
+   storageBucket: "estoque-produtos-7bdb6.appspot.com",
+   messagingSenderId: "545416352699",
+   appId: "1:545416352699:web:1da21d586552f2601b6a9e"
+ };
 
+ // Initialize Firebase
+ firebase.initializeApp(firebaseConfig);
+ const db = firebase.database();
 
-    </script>
+ // Função para atualizar o estoque no Firebase
+ function atualizarEstoque(produtoId) {
+   var quantidadeSpan = document.getElementById('quantidade_' + produtoId);
+
+   // Atualize a quantidade em estoque no Firebase
+   var estoqueRef = db.ref('estoque/' + produtoId);
+   estoqueRef.transaction(function(estoqueAtual) {
+     // Adicione a lógica de atualização aqui, por exemplo, aumentar em 1
+     return (estoqueAtual || 0) + 1;
+   });
+ }
+
+ // Função para exibir a quantidade em estoque no HTML
+ function exibirQuantidadeEstoque(produtoId) {
+   var quantidadeSpan = document.getElementById('quantidade_' + produtoId);
+
+   // Obtenha a quantidade em estoque do Firebase
+   var estoqueRef = db.ref('estoque/' + produtoId);
+   estoqueRef.on('value', function(snapshot) {
+     var quantidade = snapshot.val();
+     quantidadeSpan.textContent = quantidade || 0;
+   });
+ }
+
+ // Função para atualizar a quantidade total
+ function atualizarQuantidadeTotal() {
+   // Adicione os IDs únicos de todos os produtos aqui
+   var produtos = ['polia', 'cabecote', 'anel', 'balancim_fiat_toro','tubo_flexivel_iveco','biela_mbb','bloco_effa',
+   'bomba_agua_mbb','bomba_combustivel',];
+
+   for (var i = 0; i < produtos.length; i++) {
+     exibirQuantidadeEstoque(produtos[i]);
+   }
+ }
+
+ // Chame a função para exibir a quantidade total quando a página carregar
+ document.addEventListener('DOMContentLoaded', function() {
+   atualizarQuantidadeTotal();
+ });
+</script>
+
+<!--  FINAL ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
+
+  
 
 
 
@@ -337,6 +376,22 @@
                         Valor Total: R$ <span id="total-value">0.00</span>
                       </div>
                       <br>
+                      <div class="formulario_cep">
+                        <form method="get" action=".">
+                          <label>Cep:
+                          <input name="cep" type="text" id="cep" value="" size="10" maxlength="9"
+                                 onblur="pesquisacep(this.value);" /></label><br />
+                          <label>Rua:
+                          <input name="rua" type="text" id="rua" size="60" /></label><br />
+                          <label>Bairro:
+                          <input name="bairro" type="text" id="bairro" size="40" /></label><br />
+                          <label>Cidade:
+                          <input name="cidade" type="text" id="cidade" size="40" /></label><br />
+                          <label>Estado:
+                          <input name="uf" type="text" id="uf" size="2" /></label><br />
+                          <label>IBGE:
+                          <input name="ibge" type="text" id="ibge" size="8" /></label><br />
+                        </form>
                   
                       <form id="checkout-form" action="gerar_comprovante.php" method="post" target="_blank">
                         <label for="payment">Forma de Pagamento:</label>
@@ -511,7 +566,78 @@
                         
                       </script>
                       
-                      
+                      <script>
+    
+                        function limpa_formulário_cep() {
+                                //Limpa valores do formulário de cep.
+                                document.getElementById('rua').value=("");
+                                document.getElementById('bairro').value=("");
+                                document.getElementById('cidade').value=("");
+                                document.getElementById('uf').value=("");
+                                document.getElementById('ibge').value=("");
+                        }
+                    
+                        function meu_callback(conteudo) {
+                            if (!("erro" in conteudo)) {
+                                //Atualiza os campos com os valores.
+                                document.getElementById('rua').value=(conteudo.logradouro);
+                                document.getElementById('bairro').value=(conteudo.bairro);
+                                document.getElementById('cidade').value=(conteudo.localidade);
+                                document.getElementById('uf').value=(conteudo.uf);
+                                document.getElementById('ibge').value=(conteudo.ibge);
+                            } //end if.
+                            else {
+                                //CEP não Encontrado.
+                                limpa_formulário_cep();
+                                alert("CEP não encontrado.");
+                            }
+                        }
+                            
+                        function pesquisacep(valor) {
+                    
+                            //Nova variável "cep" somente com dígitos.
+                            var cep = valor.replace(/\D/g, '');
+                    
+                            //Verifica se campo cep possui valor informado.
+                            if (cep != "") {
+                    
+                                //Expressão regular para validar o CEP.
+                                var validacep = /^[0-9]{8}$/;
+                    
+                                //Valida o formato do CEP.
+                                if(validacep.test(cep)) {
+                    
+                                    //Preenche os campos com "..." enquanto consulta webservice.
+                                    document.getElementById('rua').value="...";
+                                    document.getElementById('bairro').value="...";
+                                    document.getElementById('cidade').value="...";
+                                    document.getElementById('uf').value="...";
+                                    document.getElementById('ibge').value="...";
+                    
+                                    //Cria um elemento javascript.
+                                    var script = document.createElement('script');
+                    
+                                    //Sincroniza com o callback.
+                                    script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+                    
+                                    //Insere script no documento e carrega o conteúdo.
+                                    document.body.appendChild(script);
+                    
+                                } //end if.
+                                else {
+                                    //cep é inválido.
+                                    limpa_formulário_cep();
+                                    alert("Formato de CEP inválido.");
+                                }
+                            } //end if.
+                            else {
+                                //cep sem valor, limpa formulário.
+                                limpa_formulário_cep();
+                            }
+                        };
+                    
+                        </script>
+                    
                       </div>
                   
 

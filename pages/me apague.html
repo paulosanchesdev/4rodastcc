@@ -19,11 +19,85 @@
 
  
   <title>Seu Site</title>
+  <style>
+   
+
+    h1 {
+        color: #333;
+    }
+
+    .formulario_cep {
+        margin-bottom: 20px;
+        margin-top: 50%;
+    }
+
+    form {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 25%;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    input {
+        padding: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 10%;
+      
+    }
+
+    li {
+        margin-bottom: 10px;
+    }
+
+    img {
+        margin-right: 10px;
+        max-width: 100%;
+        height: auto;
+    }
+
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #F2AC57;
+    }
+     .finalizarc{
+      margin-bottom: 10%;
+
+     }
+
+     .formulario_cep{
+      margin-top: 60%;
+     
+
+     }
+
+     .space-below-products{
+        margin-top: 20%;
+     }
+</style>
+  
 </head>
 
 <body>
 
-    
+ 
     
     
     
@@ -184,135 +258,233 @@
                       </svg>
                     </a>
                   </div>
-
+                
 
 
                     <!-- FINAL MENU___________________________________________________________________________________________________________ -->
 
                   
-                  
+                    <div class="space-below-products"></div>
 
 
                     
                      <!--  ____________________________________________BARRA DE PESQUISA____________________________________ ________________ -->
                     
-                    
-                     <div class="search-bar">
-                    <input type="text" id="searchInput" onkeyup="handleKeyPress(event)"
-                      placeholder="Digite sua pesquisa">
-                    <button onclick="pesquisar()">Pesquisar</button>
-                  </div>
-
+                   
 
 
 
                     <!-- INICIO GRID PRODUTOS__________________________________________________________________________________________________ -->
 
-                    <div class="products">
-                      <div class="product" id="polia">
-                        <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
-                        <h3>Polia-Livre Ponta Alternador/IVECO/NEW DAILY APÓS 2008</h3>
-                        <p class="price">R$ 312,85</p>
-                        <p>ou 6x de R$ 52,14</p>
-                        <p id="estoque_polia">Estoque: <span id="quantidade_polia"></span></p>
-                        
-                        <a href="interface_compras_usuario.html" class="buy-link" target="_blank">
-                          <button class="buy-button">Comprar</button>
-                        </a>
-                      </div>
-                  
-                      <div class="product" id="produto1">
-                        <img src="imagensp/cabecotehome.jpeg" alt="Produto 2" class="zoomable">
-                        <h3>Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</h3>
-                        <p class="price">R$ 6.903,48</p>
-                        <p>ou 6x de R$ 1.150,58</p>
-                        <p id="estoque_cabecote">Estoque: <span id="quantidade_cabecote"></span></p>
-                       
-                        <a href="pages/2homecarcabecote.html" class="buy-link" target="_blank">
-                          <button class="buy-button">Comprar</button>
-                        </a>
-                      </div>
-                  
-                      <div class="product">
-                          <img src="imagensp/aneldeencostohome.jpeg" alt="Produto 1" class="zoomable">
-                          <h3>Anel de encosto - Man D08 34 4 CILS / D08 6 CILS Diesel </h3>
-                          <p class="price">R$ 196,21 </p>
-                          <p> ou 6x de R$ 32,70</p>
-                           <p id="estoque_anel">Estoque: <span id="quantidade_anel"></span></p>
-                          <a href="pages/3homecaranel.html" class="buy-link" target="_blank">
-                            <button class="buy-button">Comprar</button></a>
-                        </div>
-                  
+                    <script>
+                      // Lista de produtos fictícia
+                      const produtos = [
+                          { id: 1, nome: 'Polia Livre Ponta Iveco', preco: 312.85, imagem: 'produto1.jpg' },
+                          { id: 2, nome: 'Cabeçote-hyundai HR', preco: 6903.48, imagem: 'produto2.jpg' },
+                          { id: 3, nome: 'Anel de encosto - Man', preco: 196.21, imagem: 'produto3.jpg' }
+                      ];
+              
+                      // Carrinho de compras
+                      const carrinho = [];
+              
+                      function adicionarProdutoAoCarrinho(id) {
+                          const produto = produtos.find(p => p.id === id);
+              
+                          if (produto) {
+                              carrinho.push(produto);
+                              atualizarCarrinho();
+                          }
+                      }
+              
+                      function atualizarCarrinho() {
+                          const carrinhoElement = document.getElementById('carrinho');
+                          carrinhoElement.innerHTML = '';
+              
+                          let total = 0;
+              
+                          carrinho.forEach(produto => {
+                              const item = document.createElement('li');
+                              item.textContent = `${produto.nome} - R$ ${produto.preco.toFixed(2)}`;
+                              carrinhoElement.appendChild(item);
+              
+                              total += produto.preco;
+                          });
+              
+                          document.getElementById('total').textContent = `Total: R$ ${total.toFixed(2)}`;
+                      }
+                  </script>
+              
+                   
+              <div class="formulario_cep">
+                <form method="get" action=".">
+
+                    <label>Nome Completo:
+                        <input name="nomeCompleto" type="text" id="nomeCompleto" size="60" />
+                    </label><br />
+                    <label>Cep:
+                        <input name="cep" type="text" id="cep" value="" size="10" maxlength="9" onblur="pesquisacep(this.value);" />
+                    </label><br />
+                    <label>Rua:
+                        <input name="rua" type="text" id="rua" size="60" />
+                    </label><br />
+                    <label>Bairro:
+                        <input name="bairro" type="text" id="bairro" size="40" />
+                    </label><br />
+                    <label>Cidade:
+                        <input name="cidade" type="text" id="cidade" size="40" />
+                    </label><br />
+                    <label>Estado:
+                        <input name="uf" type="text" id="uf" size="2" />
+                    </label><br />
+                    <label>IBGE:
+                        <input name="ibge" type="text" id="ibge" size="8" />
+                    </label><br />
+                </form>
+            </div>
+
+  
+  <ul>
+
+      <li>
+          <img src="imagensp/poli.jpg" width="10%" alt="Polia Livre Ponta Iveco">
+          Polia Livre Ponta Iveco- R$ 312.85
+          <button onclick="adicionarProdutoAoCarrinho(1)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+          <img src="imagensp/cabecotehome.jpeg" width="10%" alt="Cabeçote-hyundai HR">
+          Cabeçote-hyundai HR - R$ 6.903,48
+          <button onclick="adicionarProdutoAoCarrinho(2)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+          <img src="imagensp/aneldeencostohome.jpeg" width="10%" alt="Anel de encosto - Man">
+          Anel de encosto - Man - R$ 196,21
+          <button onclick="adicionarProdutoAoCarrinho(3)">Adicionar ao Carrinho</button>
+      </li>
 
 
-                    <div class="product">
-                      <img src="imagensp/balancinfiattorohome.jpeg" alt="Produto 1" class="zoomable">
-                      <h3> Balancim - Fiat Toro | Jeep Renegate | Compass 2.0 16V </h3>
-                      <p class="price">R$ 313,60</p>
-                      <p>ou 6x de R$ 52,26 </p>
-                      <p id="estoque_balancim_fiat_toro">Estoque: <span id="quantidade_balancim_fiat_toro"></span></p>
-                      <a href="pages/4homecarbalancim.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
 
 
-                    <div class="product">
-                      <img src="imagensp/tuboflexivelhome.jpeg" alt="Produto 1" class="zoomable">
-                      <h3>Tubo Flexível Bico Injetor - M.R- IVECO New Daily 3.0 </h3>
-                      <p class="price">R$ 435,70 </p>
-                      <p> ou 6x de R$ 72,61</p>
-                      <p id="estoque_tubo_flexivel_iveco">Estoque: <span id="quantidade_tubo_flexivel_iveco"></span></p>
-                      <a href="pages/5homecartubo.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
-
-                    <div class="product">
-                      <img src="imagensp/bielahome.jpg" alt="Produto 1" class="zoomable">
-                      <h3>Biela- MBB Sprinter 0M 611 2002/2012 (311CDI/313CDI/413CDI) </h3>
-                      <p class="price">R$ 415,99 </p>
-                      <p> ou 6x de R$ 69,33</p>
-                      <p id="estoque_biela_mbb">Estoque: <span id="quantidade_biela_mbb"></span></p>
-                      <a href="pages/6homecarbiela.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
+      <li>
+          <img src="imagensp/poli.jpg" width="10%" alt="Polia Livre Ponta Iveco">
+          Polia Livre Ponta Iveco- R$ 312.85
+          <button onclick="adicionarProdutoAoCarrinho(1)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+          <img src="imagensp/cabecotehome.jpeg" width="10%" alt="Cabeçote-hyundai HR">
+          Cabeçote-hyundai HR - R$ 6.903,48
+          <button onclick="adicionarProdutoAoCarrinho(2)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+          <img src="imagensp/aneldeencostohome.jpeg" width="10%" alt="Anel de encosto - Man">
+          Anel de encosto - Man - R$ 196,21
+          <button onclick="adicionarProdutoAoCarrinho(3)">Adicionar ao Carrinho</button>
+      </li>
 
 
-                    <div class="product">
-                      <img src="imagensp/blocomotorhome.jpg" alt="Produto 1" class="zoomable">
-                      <h3> Bloco do Motor-CHANA/EFFA/TOWNER 1.0L 8V GAS APOS 2007</h3>
-                      <p class="price">R$ 3.574,00</p>
-                      <p>ou 6x de R$ 595,66</p>
-                      <p id="estoque_bloco_effa">Estoque: <span id="quantidade_bloco_effa"></span></p>
-                      <a href="pages/7homecarblocomotor.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
 
 
-                    <div class="product">
-                      <img src="imagensp/bombaaguahome.jpeg" alt="Produto 1" class="zoomable">
-                      <h3> Bomba de Água- MBB 1620 OH-162 1 | OF-1721 00/OM 366LA 6 EURO 2 </h3>
-                      <p class="price">R$ 744,14</p>
-                      <p> ou 6x de R$ 124,02</p>
-                      <p id="estoque_bomba_agua_mbb">Estoque: <span id="quantidade_bomba_agua_mbb"></span></p>
-                      <a href="pages/8homecarbombaagua.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
 
-                    <div class="product">
-                      <img src="imagensp/bombacombustivelhome.jpg" alt="Produto 1" class="zoomable">
-                      <h3> Bomba de Combustível - Renault - TRAFIC GASOLINA CARBURADA </h3>
-                      <p class="price">R$ 226,91 </p>
-                      <p> ou 6x de R$ 37,81</p>
-                      <p id="estoque_bomba_combustivel">Estoque: <span id="quantidade_bomba_combustivel"></span></p>
-                      <a href="pages/9homecarbombacombustivel.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
+      <li>
+          <img src="imagensp/poli.jpg" width="10%" alt="Polia Livre Ponta Iveco">
+          Polia Livre Ponta Iveco- R$ 312.85
+          <button onclick="adicionarProdutoAoCarrinho(1)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+          <img src="imagensp/cabecotehome.jpeg" width="10%" alt="Cabeçote-hyundai HR">
+          Cabeçote-hyundai HR - R$ 6.903,48
+          <button onclick="adicionarProdutoAoCarrinho(2)">Adicionar ao Carrinho</button>
+      </li>
+      <li>
+          <img src="imagensp/aneldeencostohome.jpeg" width="10%" alt="Anel de encosto - Man">
+          Anel de encosto - Man - R$ 196,21
+          <button onclick="adicionarProdutoAoCarrinho(3)">Adicionar ao Carrinho</button>
+      </li>
+
+  </ul>
 
 
-                     <!-- FINAL GRID PRODUTOS__________________________________________________________________________________________________ -->
+  <ul id="carrinho"></ul>
 
-                  </div>
+  <p id="total">Total: R$ 0.00</p>
 
+                <!-- Seu código JavaScript existente -->
+                <button class="finalizarc" onclick="gerarPDF()">Finaliza Compra</button>
+                
+
+
+   
+
+
+    <script>
+      function limpa_formulário_cep() {
+          //Limpa valores do formulário de cep.
+          document.getElementById('rua').value=("");
+          document.getElementById('bairro').value=("");
+          document.getElementById('cidade').value=("");
+          document.getElementById('uf').value=("");
+          document.getElementById('ibge').value=("");
+  }
+  
+  function meu_callback(conteudo) {
+      if (!("erro" in conteudo)) {
+          //Atualiza os campos com os valores.
+          document.getElementById('rua').value=(conteudo.logradouro);
+          document.getElementById('bairro').value=(conteudo.bairro);
+          document.getElementById('cidade').value=(conteudo.localidade);
+          document.getElementById('uf').value=(conteudo.uf);
+          document.getElementById('ibge').value=(conteudo.ibge);
+      } //end if.
+      else {
+          //CEP não Encontrado.
+          limpa_formulário_cep();
+          alert("CEP não encontrado.");
+      }
+  }
+      
+  function pesquisacep(valor) {
+  
+      //Nova variável "cep" somente com dígitos.
+      var cep = valor.replace(/\D/g, '');
+  
+      //Verifica se campo cep possui valor informado.
+      if (cep != "") {
+  
+          //Expressão regular para validar o CEP.
+          var validacep = /^[0-9]{8}$/;
+  
+          //Valida o formato do CEP.
+          if(validacep.test(cep)) {
+  
+              //Preenche os campos com "..." enquanto consulta webservice.
+              document.getElementById('rua').value="...";
+              document.getElementById('bairro').value="...";
+              document.getElementById('cidade').value="...";
+              document.getElementById('uf').value="...";
+              document.getElementById('ibge').value="...";
+  
+              //Cria um elemento javascript.
+              var script = document.createElement('script');
+  
+              //Sincroniza com o callback.
+              script.src = 'https://viacep.com.br/ws/'+ cep + '/json/?callback=meu_callback';
+  
+              //Insere script no documento e carrega o conteúdo.
+              document.body.appendChild(script);
+  
+          } //end if.
+          else {
+              //cep é inválido.
+              limpa_formulário_cep();
+              alert("Formato de CEP inválido.");
+          }
+      } //end if.
+      else {
+          //cep sem valor, limpa formulário.
+          limpa_formulário_cep();
+      }
+  };
+  
+      </script>
                   <div class="space-below-products"></div>
 
 

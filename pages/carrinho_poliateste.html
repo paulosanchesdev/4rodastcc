@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="icon" type="image/png" href="imagensp/favconroda.png.png">
+
+
+  <link rel="stylesheet" href="4rodascompleto.css">
+
+  <title>4Rodas</title>
+
+
+
+  <head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!--  INICIO ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
+
+<script>
+  const firebaseConfig = {
+   apiKey: "AIzaSyC87IS5wFCe812olfBR3Nx31g2WvBnFmWI",
+   authDomain: "estoque-produtos-7bdb6.firebaseapp.com",
+   projectId: "estoque-produtos-7bdb6",
+   storageBucket: "estoque-produtos-7bdb6.appspot.com",
+   messagingSenderId: "545416352699",
+   appId: "1:545416352699:web:1da21d586552f2601b6a9e"
+ };
+
+ // Initialize Firebase
+ firebase.initializeApp(firebaseConfig);
+ const db = firebase.database();
+
+ // Função para atualizar o estoque no Firebase
+ function atualizarEstoque(produtoId) {
+   var quantidadeSpan = document.getElementById('quantidade_' + produtoId);
+
+   // Atualize a quantidade em estoque no Firebase
+   var estoqueRef = db.ref('estoque/' + produtoId);
+   estoqueRef.transaction(function(estoqueAtual) {
+     // Adicione a lógica de atualização aqui, por exemplo, aumentar em 1
+     return (estoqueAtual || 0) + 1;
+   });
+ }
+
+ // Função para exibir a quantidade em estoque no HTML
+ function exibirQuantidadeEstoque(produtoId) {
+   var quantidadeSpan = document.getElementById('quantidade_' + produtoId);
+
+   // Obtenha a quantidade em estoque do Firebase
+   var estoqueRef = db.ref('estoque/' + produtoId);
+   estoqueRef.on('value', function(snapshot) {
+     var quantidade = snapshot.val();
+     quantidadeSpan.textContent = quantidade || 0;
+   });
+ }
+
+ // Função para atualizar a quantidade total
+ function atualizarQuantidadeTotal() {
+   // Adicione os IDs únicos de todos os produtos aqui
+   var produtos = ['polia', 'cabecote', 'anel', 'balancim_fiat_toro','tubo_flexivel_iveco','biela_mbb','bloco_effa',
+   'bomba_agua_mbb','bomba_combustivel',];
+
+   for (var i = 0; i < produtos.length; i++) {
+     exibirQuantidadeEstoque(produtos[i]);
+   }
+ }
+
+ // Chame a função para exibir a quantidade total quando a página carregar
+ document.addEventListener('DOMContentLoaded', function() {
+   atualizarQuantidadeTotal();
+ });
+</script>
+
+<!--  FINAL ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
+
+  
+
+
+
+    <style>
+    
+      .produto-frete {
+      background-color: #f2f2f2;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      max-width: auto;
+      max-height: auto;
+      margin: 0 auto;
+      margin: 0 auto;
+      margin-top: 20px;
+      margin-bottom: 300px;
+      width: 50%;
+      background-image: url(https://i.pinimg.com/originals/6f/7c/63/6f7c63991726d61d63730682e791d78c.gif);
+      opacity: 0.9;
+      color:white;
+      max-height: 1900px;
+    }
+    
+  
+    .produto-frete h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+  
+    .produto-frete p.price {
+      font-size: 25px;
+      margin-bottom: 10px;
+      color:white;
+      text-align: center;
+    }
+  
+    .produto-frete form label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  
+    .produto-frete form input,
+    .produto-frete form select {
+      width: 100%;
+      padding: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+  
+    .produto-frete form button {
+      background-color: #4caf50;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  
+    .produto-frete #total {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  
+    .produto-frete #cartao-credito {
+      margin-top: 20px;
+    }
+  
+    .produto-frete #cartao-credito label,
+    .produto-frete #cartao-credito input {
+      display: block;
+      margin-bottom: 10px;
+    }
+  
+    .produto-frete #cartao-credito input[type="text"] {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+  
+    .produto-frete a {
+      text-decoration: none;
+      
+    }
+    .parcela{
+      text-align: center;
+    }
+  
+    .produto-frete button {
+      background-color: #4caf50;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .espacomenucarrinho{
+      margin-top: 300px;
+    }
+ 
+    </style>
+
+  </head>
+
+<body>
+
+
+
+
+
+    <!-- Conteúdo do seu site -->
+    <div id="content">
+      <main class="site-wrapper">
+        <link rel="stylesheet" href="style.css">
+        <div class="pt-table desktop-768">
+
+          <div class="overlay"></div>
+          
+         
+          <div class="container">
+            <div class="row">
+              <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+                <div class="page-title  home text-center">
+                  <div class="logo">
+                    <img src="imagensp/4Rcortado.gif.gif" alt="Logo" class="logo" width="50%">
+                  </div>
+
+                 
+
+                  <div class="hexagon-menu clear">
+                    <div class="hexagon-item" width="30%">
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <a class="hex-content">
+                        <span class="hex-content-inner">
+                          <span class="icon">
+
+                          </span>
+                          <span class="title">carrinho polia</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772
+                                                        150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path>
+                        </svg>
+
+
+                      </a>
+                    </div>
+                    <div class="hexagon-item" width="50%">
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <a class="hex-content">
+                        <span class="hex-content-inner">
+                          <span class="icon">
+
+                          </span>
+                          <span class="title">Produtos</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                            fill="#1e2530"></path>
+                        </svg>
+                      </a>
+                    </div>
+                    <div class="hexagon-item">
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <a class="hex-content">
+                        <span class="hex-content-inner">
+                          <span class="icon">
+
+                          </span>
+                          <span class="title">Sobre</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                            fill="#1e2530"></path>
+                        </svg>
+                      </a>
+                    </div>
+                    <div class="hexagon-item">
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <a class="hex-content">
+                        <span class="hex-content-inner">
+                          <span class="icon">
+
+                          </span>
+                          <span class="title">Contato</span>
+                        </span>
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                            fill="#1e2530"></path>
+                        </svg>
+                      </a>
+                    </div>
+                    <div class="hexagon-item">
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <div class="hex-item">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                      </div>
+                      <a href="pages/logincadastro.html"    class="hex-content" >
+                        <span class="hex-content-inner">
+                          <span class="icon">
+                            <i class="fa fa-shopping-cart"></i>
+                          </span>
+                          <span class="title">Login</span>
+                        </span>
+
+
+                        <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                            fill="#1e2530"></path>
+                        </svg>
+                      </a>
+                    </div>
+
+                   <div class="espacomenucarrinho">
+
+                   </div>
+
+                    <div class="produto-frete">
+                      <center>
+                      <img src="imagensp/poli.jpg" alt="Produto 1" width="60%" height="auto" class="zoomable"alt="produto-frete">
+                    </center>
+                      <h3>Polia-Livre Ponta Altenador/IVECO/NEW DAILY APOS 2008</h3>
+                      <p class="price">R$ 312,85</p>
+                      <p class="parcela">ou 6x de R$ 52,14</p>
+                  
+                      <form id="frete-form" onsubmit="event.preventDefault(); calcularFrete();">
+                        <label for="quantity">Quantidade:</label>
+                        <input type="number" name="quantity" id="quantity" min="1" value="1">
+                  
+                        <label for="zipcode">CEP:</label>
+                        <input type="text" name="zipcode" id="zipcode" required>
+                  
+                        <button type="submit">Calcular Frete</button>
+                        <p class="correios"> <img src="imagensp/correios.png.png" width="18%"></p>
+                      
+                      </form>
+                      
+                      <div id="total" style="display: none;">
+                        Valor Total: R$ <span id="total-value">0.00</span>
+                      </div>
+                      <br>
+                  
+                      <form id="checkout-form" action="gerar_comprovante.php" method="post" target="_blank">
+                        <label for="payment">Forma de Pagamento:</label>
+                        <select name="payment" id="payment" onchange="toggleForm()">
+                          <option value="pix"> Forma de pagamento</option>
+                          <option value="pix">PIX</option>
+                          <option value="boleto">Boleto Bancário</option>
+                          <option value="cartao">Cartão de Crédito</option>
+                          <option value="transferencia">Transferência Bancária</option>
+                         
+                        </select>
+                        <br>
+                      
+                        <div id="transferencia" style="display: none;">
+                          <label for="bank-name">Nome do Banco:</label>
+                          <input type="text" name="bank-name" id="bank-name" required>
+                          <br>
+                      
+                          <label for="account-number">Número da Conta:</label>
+                          <input type="text" name="account-number" id="account-number" required>
+                          <br>
+                      
+                          <label for="account-holder">Titular da Conta:</label>
+                          <input type="text" name="account-holder" id="account-holder" required>
+                          <br>
+                        </div>
+                      
+                        <div id="pix" style="display: none;">
+                          <label for="pix-qr-code">QR Code:</label>
+                          <br>
+                          <img src="imagensp/qrcode.jpeg" alt="QR Code" width="50%"height="auto">
+                        </div>
+                      
+                        <div id="cartao-credito" style="display: none;">
+                          <label for="card-number">Número do Cartão:</label>
+                          <input type="text" name="card-number" id="card-number" required>
+                          <br>
+                      
+                          <label for="card-name">Nome do Titular:</label>
+                          <input type="text" name="card-name" id="card-name" required>
+                          <br>
+                      
+                          <label for="card-expiry">Data de Expiração:</label>
+                          <input type="text" name="card-expiry" id="card-expiry" required>
+                          <br>
+                      
+                          <label for="card-cvv">CVV:</label>
+                          <input type="text" name="card-cvv" id="card-cvv" required>
+                          <br>
+                        </div>
+        
+                        <div id="boleto" style="display: none;">
+                          <label for="card-number">CPF</label>
+                          <input type="text" name="card-number" id="card-number" required>
+                          <br>
+                      
+                          <label for="card-name">Nome do Titular:</label>
+                          <input type="text" name="card-name" id="card-name" required>
+                          <br>
+                      
+                          
+                        </div>
+        
+                      
+                      
+                        <br>
+                        <a href="boleto.html" target="_blank"></a>
+                        <button type="button" onclick="finalizarCompra()">Finalizar Compra</button>
+                      </form>
+                      
+                      <script>
+                        function toggleForm() {
+                          const paymentMethod = document.getElementById('payment').value;
+                          const transferenciaForm = document.getElementById('transferencia');
+                          const pixForm = document.getElementById('pix');
+                          const cartaoCreditoForm = document.getElementById('cartao-credito');
+                      
+                          const boletoForm = document.getElementById('boleto');
+        
+            if (paymentMethod === 'transferencia') {
+              transferenciaForm.style.display = 'block';
+              pixForm.style.display = 'none';
+              cartaoCreditoForm.style.display = 'none';
+              boletoForm.style.display = 'none';
+            } else if (paymentMethod === 'pix') {
+              transferenciaForm.style.display = 'none';
+              pixForm.style.display = 'block';
+              cartaoCreditoForm.style.display = 'none';
+              boletoForm.style.display = 'none';
+            } else if (paymentMethod === 'boleto') {
+              transferenciaForm.style.display = 'none';
+              pixForm.style.display = 'none';
+              cartaoCreditoForm.style.display = 'none';
+              boletoForm.style.display = 'block';
+            } else {
+              transferenciaForm.style.display = 'none';
+              pixForm.style.display = 'none';
+              cartaoCreditoForm.style.display = 'block';
+              boletoForm.style.display = 'none';
+            }
+          }
+          
+                        function finalizarCompra() {
+                          const paymentMethod = document.getElementById('payment').value;
+                      
+                          if (paymentMethod === 'transferencia') {
+                            const bankName = document.getElementById('bank-name').value;
+                            const accountNumber = document.getElementById('account-number').value;
+                            const accountHolder = document.getElementById('account-holder').value;
+                      
+                            // Aqui você pode utilizar os dados da transferência bancária para o processamento
+                          } else if (paymentMethod === 'cartao') {
+                            const cardNumber = document.getElementById('card-number').value;
+                            const cardName = document.getElementById('card-name').value;
+                            const cardExpiry = document.getElementById('card-expiry').value;
+                            const cardCvv = document.getElementById('card-cvv').value;
+                      
+                            // Aqui você pode utilizar os dados do cartão de crédito para o processamento
+                          } else if (paymentMethod === 'pix') {
+                            // Lógica específica para o método PIX
+                          }
+                      
+                          calcularFrete();
+                      
+                          // Cálculo do valor total
+                          const price = 312.85; // Valor do produto
+                          const freight = 40; // Valor fixo do frete
+                          const quantity = document.getElementById('quantity').value;
+                          const totalValueElement = document.getElementById('total-value');
+                          const totalContainer = document.getElementById('total');
+                          const totalValue = (parseFloat(price) * parseInt(quantity)) + parseFloat(freight);
+                      
+                          // Exibir o valor total
+                          totalValueElement.textContent = totalValue.toFixed(2);
+                          totalContainer.style.display = 'block';
+                      
+                          // Aqui você pode adicionar lógica adicional para enviar os dados ou gerar o comprovante de pagamento
+                        }
+                      
+                        function calcularFrete() {
+                         
+                        const quantity = document.getElementById('quantity').value;
+                        const zipcode = document.getElementById('zipcode').value;
+                        const totalValueElement = document.getElementById('total-value');
+                        const totalContainer = document.getElementById('total');
+                  
+                        // Cálculo do valor total
+                        const price = 312.85; // Valor do produto
+                        const freight = 40; // Valor fixo do frete
+                        const totalValue = (parseFloat(price) * parseInt(quantity)) + parseFloat(freight);
+                  
+                        // Exibir o valor total
+                        totalValueElement.textContent = totalValue.toFixed(2);
+                        totalContainer.style.display = 'block';
+                      }
+        
+                      var primeiroClique = true;
+        
+                      function finalizarCompra() {
+                      if (primeiroClique) {
+                      window.open("logincadastro.html", "popup", "width=600,height=600");
+                    
+                     } else {
+                     window.open("boleto.html", "_blank");
+                     }
+            
+                      primeiroClique = !primeiroClique;
+                     }
+        
+                     
+        
+                        
+                      </script>
+                      
+                      
+                      </div>
+                  
+
+                    <div class="space-below-products"></div>
+
+                    <div class="gif-container">
+                      <img src="imagensp/Principaismarcas.gif.gif" alt="Seu GIF">
+                    </div>
+
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div vw class="enabled">
+            <div vw-access-button class="active"></div>
+            <div vw-plugin-wrapper>
+              <div class="vw-plugin-top-wrapper"></div>
+            </div>
+          </div>
+          <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+          <script>
+            new window.VLibras.Widget('https://vlibras.gov.br/app');
+          </script>
+
+
+
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+          <a href="https://wa.me/55(aqui seu numero com ddd | tudo junto)?text=Adorei%20seu%20artigo" style="position:fixed;
+
+width:60px;height:60px;bottom:40px;right:5px;
+top: 20%;
+background-color:#F2AC57;
+opacity: 0.9;
+color:black;border-radius:50px;text-align:center;font-size:30px;box-shadow: 1px 1px 2px #888;
+z-index:1000;" target="_blank">
+
+            <i style="margin-top:15px" class="fa fa-whatsapp"></i>
+          </a>
+      </main>
+    </div>
+
+
+
+
+    <div class="audiobotao">
+
+      <button id="speakButton">🔊</button>
+
+      <script>
+
+        document.addEventListener("selectionchange", function () {
+          speakText();
+        });
+
+        function speakText() {
+          var textToSpeak = window.getSelection().toString().trim();
+
+          if (textToSpeak !== '') {
+            if ('speechSynthesis' in window) {
+              var synthesis = window.speechSynthesis;
+              var utterance = new SpeechSynthesisUtterance(textToSpeak);
+
+
+              // Configurações adicionais
+              utterance.lang = 'pt-BR'; // Define o idioma da voz (neste caso, português do Brasil)
+              utterance.rate = 1.0; // Velocidade da leitura (1.0 é a velocidade padrão, ajuste conforme necessário)
+              utterance.volume = 1.0; // Volume da voz (0.0 a 1.0)
+              utterance.pitch = 1.0; // Tom da voz (0.0 a 2.0, 1.0 é o tom padrão)
+
+              // Evento para lidar com o término da leitura
+              utterance.onend = function () {
+                console.log('Leitura concluída.');
+              };
+
+              synthesis.speak(utterance);
+            } else {
+              alert("Desculpe, a Web Speech API não é suportada neste navegador.");
+            }
+          }
+        }
+      </script>
+
+
+    </div>
+
+    
+
+
+    <footer class="footer">
+
+
+      <div class="waves">
+        <div class="wave" id="wave1"></div>
+        <div class="wave" id="wave2"></div>
+        <div class="wave" id="wave3"></div>
+        <div class="wave" id="wave4"></div>
+      </div>
+      <ul class="social-icon">
+        <li class="social-icon__item"><a class="social-icon__link" href="https://www.facebook.com" target="_blank">
+            <ion-icon name="logo-facebook"></ion-icon>
+          </a></li>
+        <li class="social-icon__item"><a class="social-icon__link" href="https://twitter.com" target="_blank">
+            <ion-icon name="logo-twitter"></ion-icon>
+          </a></li>
+        <li class="social-icon__item"><a class="social-icon__link"
+            href="https://www.linkedin.com/signup?_l=pt&trk=guest_homepage-basic_nav-header-join" target="_blank">
+            <ion-icon name="logo-linkedin"></ion-icon>
+          </a></li>
+        <li class="social-icon__item"><a class="social-icon__link" href="https://www.instagram.com" target="_blank">
+            <ion-icon name="logo-instagram"></ion-icon>
+          </a></li>
+      </ul>
+      <center>
+        <ul class="menu-footer">
+          <li class="menu__item"><a class="menu__link" href="pages/cidades1.html" target="_blank">Cidades</a></li>
+          <li class="menu__item"><a class="menu__link" href="pages/marcas.html" target="_blank">Marcas</a></li>
+          <li class="menu__item"><a class="menu__link" href="https://quatrorodas.abril.com.br/noticias/"
+              target="_blank">Noticias</a></li>
+          <li class="menu__item"><a class="menu__link" href="pages/trabalheconosco.html" target="_blank">Trabalhe
+              conosco</a></li>
+
+        </ul>
+
+
+
+      </center>
+
+
+    </footer>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const zoomableImages = document.querySelectorAll('.zoomable');
+
+        zoomableImages.forEach((image) => {
+          let isZoomed = false;
+
+          image.addEventListener('click', () => {
+            if (isZoomed) {
+              image.style.transform = 'scale(1)';
+              isZoomed = false;
+            } else {
+              image.style.transform = 'scale(1.7)';
+              isZoomed = true;
+            }
+          });
+        });
+      });
+    </script>
+
+
+    <script>
+      window.addEventListener('scroll', function () {
+        var footer = document.querySelector('footer');
+        var scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+        var documentHeight = Math.max(
+          document.body.scrollHeight || 0,
+          document.documentElement.scrollHeight || 0,
+          document.body.offsetHeight || 0,
+          document.documentElement.offsetHeight || 0,
+          document.body.clientHeight || 0,
+          document.documentElement.clientHeight || 0
+        );
+
+        if (scrollPosition + windowHeight >= documentHeight) {
+          footer.style.display = 'block';
+        } else {
+          footer.style.display = 'none';
+        }
+      });
+    </script>
+
+    </div>
+
+
+    <script>
+      function zoomIn() {
+        var mapImage = document.getElementById('mapImage');
+        mapImage.style.transform = 'scale(3)';
+      }
+
+      function zoomOut() {
+        var mapImage = document.getElementById('mapImage');
+        mapImage.style.transform = 'scale(1)';
+      }
+    </script>
+
+    <script>
+      function toggleZoom() {
+        var mapImage = document.getElementById('mapImage');
+
+        if (mapImage.classList.contains('zoomed')) {
+          mapImage.classList.remove('zoomed');
+        } else {
+          mapImage.classList.add('zoomed');
+        }
+      }
+
+    </script>
+
+    <script>
+      function pesquisar() {
+        var input = document.getElementById('searchInput');
+        var searchTerm = input.value.toLowerCase();
+        var produtos = document.querySelectorAll('.product');
+
+        for (var i = 0; i < produtos.length; i++) {
+          var produto = produtos[i];
+          var titulo = produto.querySelector('h3').textContent.toLowerCase();
+
+          if (titulo.includes(searchTerm)) {
+            produto.style.display = 'block';
+          } else {
+            produto.style.display = 'none';
+          }
+        }
+      }
+
+      function handleKeyPress(event) {
+        if (event.keyCode === 13) {
+          pesquisar();
+        }
+      }
+
+
+
+
+
+    </script>
+
+
+
+
+    <script type="text/javascript">
+      document.addEventListener("contextmenu", function (e) {
+        e.preventDefault();
+      }, false);
+
+      document.onkeydown = function (e) {
+        if (e.keyCode == 123) {
+          return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+          return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+          return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+          return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+          return false;
+        }
+      }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+
+  </html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar PDF com Informações Preenchidas</title>
+    <!-- Adicione a biblioteca html2pdf.js -->
+    <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+</head>
+<body>
+    <h1>Gerar PDF com Informações Preenchidas</h1>
+
+    <label for="nomeCompleto">Nome Completo:</label>
+    <input type="text" id="nomeCompleto" required><br />
+
+    <label for="endereco">Endereço:</label>
+    <input type="text" id="endereco"><br />
+
+    <label for="telefone">Telefone:</label>
+    <input type="text" id="telefone"><br />
+
+    <button onclick="gerarPDF()">Finaliza Compra</button>
+
+    <script>
+        function gerarPDF() {
+            // Obtenha os valores dos campos
+            const nomeCompleto = document.getElementById('nomeCompleto').value;
+            const endereco = document.getElementById('endereco').value;
+            const telefone = document.getElementById('telefone').value;
+
+            // Crie um elemento div temporário para armazenar as informações
+            const divTemporaria = document.createElement('div');
+            divTemporaria.innerHTML = `
+                <h2>Detalhes do Usuário</h2>
+                <p><strong>Nome Completo:</strong> ${nomeCompleto}</p>
+                <p><strong>Endereço:</strong> ${endereco}</p>
+                <p><strong>Telefone:</strong> ${telefone}</p>
+            `;
+
+            // Use html2pdf para gerar o PDF a partir do conteúdo da div
+            html2pdf(divTemporaria, {
+                margin: 10,
+                filename: 'detalhes_usuario.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            });
+        }
+    </script>
+</body>
+</html>
