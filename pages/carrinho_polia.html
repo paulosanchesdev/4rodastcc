@@ -744,7 +744,24 @@
 
 
 
-  
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Seletor para todas as linhas de produto exceto a primeira
+            const linhasProdutos = document.querySelectorAll('#cart tbody tr:not(:first-child)');
+
+            // Oculta as linhas de produto inicialmente
+            linhasProdutos.forEach(linhaProduto => {
+                linhaProduto.style.display = 'none';
+            });
+
+            document.getElementById('mostrarProdutosBtn').addEventListener('click', function () {
+                // Quando o botão é clicado, alternar entre mostrar e ocultar as linhas de produto
+                linhasProdutos.forEach(linhaProduto => {
+                    linhaProduto.style.display = (linhaProduto.style.display === 'none' || linhaProduto.style.display === '') ? 'table-row' : 'none';
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -186,8 +186,52 @@
             <tbody>
 
 
+              
+
                 <!--________Produto 1 ___________-->
 
+                <tr>
+                    <td onclick="expandirTexto(this)">Anel de encosto - Man D08 34 4 CILS / D08 6 CILS Diesel</td>
+                    <td><img class="produto-img"
+                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/aneldeencostohome.jpeg?alt=media&token=b18b3f81-4daf-43a9-a559-77b8f1773c55"
+                            alt="Produto 3"></td>
+
+                    <td><input type="checkbox" class="produto" data-id="3" data-preco="196.21"
+                            onchange="atualizarEstoqueEQuantidadeTotal('anel', 1);"></td>
+                    <td>
+                        <input type="number" class="quantidade-checkbox" data-id="3" value="1" min="1">
+                    </td>
+                    <td>R$ <span id="preco_anel_preco"></span></td>
+                    <td id="totalProduto3">R$ 0.00</td>
+                    <td>
+                        <span id="quantidade_anel">0</span>
+                    </td>
+                </tr>
+
+                  <!--________Produto 2 ___________-->
+
+                  <tr>
+                    <td onclick="expandirTexto(this)">Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</td>
+                    <td><img class="produto-img"
+                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/cabecotehome.jpeg?alt=media&token=2ea3a7c2-b54c-4095-927d-4021cf8f9540"
+                            alt="Produto 2"></td>
+
+                    <td><input type="checkbox" class="produto" data-id="2" data-preco="6903.48"
+                            onchange="atualizarEstoqueEQuantidadeTotal('cabecote', 1);">></td>
+                    <td>
+                        <input type="number" class="quantidade-checkbox" data-id="2" value="1" min="1">
+                    </td>
+                    <td>R$ <span id="preco_cabecote_preco"></span></td>
+                    <td id="totalProduto2">R$ 0.00</td>
+                    <td>
+                        <span id="quantidade_cabecote">0</span>
+                    </td>
+                </tr>
+
+
+                <!--________Produto 3 ___________-->
+
+                
                 <tr>
                     <td onclick="expandirTexto(this)">Polia-Livre Ponta Alternador /IVECO/NEW DAILY APÓS 2008</td>
                     <td><img class="produto-img"
@@ -210,48 +254,6 @@
                 </tr>
 
 
-
-
-                <!--________Produto 2 ___________-->
-
-                <tr>
-                    <td onclick="expandirTexto(this)">Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</td>
-                    <td><img class="produto-img"
-                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/cabecotehome.jpeg?alt=media&token=2ea3a7c2-b54c-4095-927d-4021cf8f9540"
-                            alt="Produto 2"></td>
-
-                    <td><input type="checkbox" class="produto" data-id="2" data-preco="6903.48"
-                            onchange="atualizarEstoqueEQuantidadeTotal('cabecote', 1);">></td>
-                    <td>
-                        <input type="number" class="quantidade-checkbox" data-id="2" value="1" min="1">
-                    </td>
-                    <td>R$ <span id="preco_cabecote_preco"></span></td>
-                    <td id="totalProduto2">R$ 0.00</td>
-                    <td>
-                        <span id="quantidade_cabecote">0</span>
-                    </td>
-                </tr>
-
-
-                <!--________Produto 3 ___________-->
-
-                <tr>
-                    <td onclick="expandirTexto(this)">Anel de encosto - Man D08 34 4 CILS / D08 6 CILS Diesel</td>
-                    <td><img class="produto-img"
-                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/aneldeencostohome.jpeg?alt=media&token=b18b3f81-4daf-43a9-a559-77b8f1773c55"
-                            alt="Produto 3"></td>
-
-                    <td><input type="checkbox" class="produto" data-id="3" data-preco="196.21"
-                            onchange="atualizarEstoqueEQuantidadeTotal('anel', 1);"></td>
-                    <td>
-                        <input type="number" class="quantidade-checkbox" data-id="3" value="1" min="1">
-                    </td>
-                    <td>R$ <span id="preco_anel_preco"></span></td>
-                    <td id="totalProduto3">R$ 0.00</td>
-                    <td>
-                        <span id="quantidade_anel">0</span>
-                    </td>
-                </tr>
 
 
                 <!--________Produto 4 ___________-->
@@ -744,7 +746,24 @@
 
 
 
-  
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Seletor para todas as linhas de produto exceto a primeira
+            const linhasProdutos = document.querySelectorAll('#cart tbody tr:not(:first-child)');
+
+            // Oculta as linhas de produto inicialmente
+            linhasProdutos.forEach(linhaProduto => {
+                linhaProduto.style.display = 'none';
+            });
+
+            document.getElementById('mostrarProdutosBtn').addEventListener('click', function () {
+                // Quando o botão é clicado, alternar entre mostrar e ocultar as linhas de produto
+                linhasProdutos.forEach(linhaProduto => {
+                    linhaProduto.style.display = (linhaProduto.style.display === 'none' || linhaProduto.style.display === '') ? 'table-row' : 'none';
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
