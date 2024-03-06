@@ -127,39 +127,38 @@
         }
 
         #mostrarProdutosBtn:hover {
-            background-color: #F2AC57; 
+            background-color: #F2AC57;
         }
 
         button#finalizarCompraBtn {
-        background-color: #4caf50;
-        color: #ffffff;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        font-size: 1em;
-        transition: background-color 0.3s ease;
-    }
+            background-color: #4caf50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
 
-    button#finalizarCompraBtn:hover {
-        background-color:  #F2AC57;
-    }
+        button#finalizarCompraBtn:hover {
+            background-color: #F2AC57;
+        }
 
 
-    button#buscarEnderecoBtn {
-        
-        background-color: #4caf50;
-        color: #ffffff;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        font-size: 1em;
-        transition: background-color 0.3s ease;
-    }
+        button#buscarEnderecoBtn {
 
-    button#buscarEnderecoBtn:hover {
-        background-color:  #F2AC57; 
-    }
-      
+            background-color: #4caf50;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        button#buscarEnderecoBtn:hover {
+            background-color: #F2AC57;
+        }
     </style>
 </head>
 
@@ -385,14 +384,16 @@
             </tbody>
         </table>
 
-        <button  id="mostrarProdutosBtn"> + Produtos</button>
+        <button id="mostrarProdutosBtn"> + Produtos</button>
 
         <p><strong>Frete Grátis em compras acima de R$200,00</strong></p>
 
 
 
-        <p id="frete"style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;"><strong>Frete:</strong> R$ 50.00</p>
-        <p id="total"style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;"><strong>Total:</strong> R$ 0.00</p>
+        <p id="frete" style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;">
+            <strong>Frete:</strong> R$ 50.00</p>
+        <p id="total" style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;">
+            <strong>Total:</strong> R$ 0.00</p>
 
 
     </div>
@@ -489,8 +490,8 @@
             const titulo = document.querySelector('h1').textContent;
             const total = document.getElementById('total').textContent;
             const totalSemRotulo = total.replace('Total: ', '');  // Nova variável sem o rótulo
-            
-            
+
+
 
             const endereco = `
             Nome: ${document.getElementById('nome').value}<br>
@@ -721,8 +722,8 @@
 
 
 
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-            <a href="https://wa.me/55(aqui seu numero com ddd | tudo junto)?text=Adorei%20seu%20artigo" style="position:fixed;
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <a href="https://wa.me/55(aqui seu numero com ddd | tudo junto)?text=Adorei%20seu%20artigo" style="position:fixed;
 
         width:60px;height:60px;bottom:40px;right:5px;
         top: 20%;
@@ -731,10 +732,10 @@
         color:black;border-radius:50px;text-align:center;font-size:30px;box-shadow: 1px 1px 2px #888;
         z-index:1000;" target="_blank">
 
-                <i style="margin-top:15px" class="fa fa-whatsapp"></i>
-            </a>
-            </main>
-            </div>
+        <i style="margin-top:15px" class="fa fa-whatsapp"></i>
+    </a>
+    </main>
+    </div>
 
 
 
@@ -762,6 +763,13 @@
             });
         });
     </script>
+
+
+
+    <script>
+    document.getElementById('nome').value = 'Paulo Sanches';
+    </script>
+
 </body>
 
 </html>
