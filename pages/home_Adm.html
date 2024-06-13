@@ -301,7 +301,7 @@ function exibirQuantidadeInicial(produtoId) {
 
 // Chama a função para exibir a quantidade inicial quando a página carrega
 document.addEventListener('DOMContentLoaded', function() {
-  exibirQuantidadeInicial('polia');
+  exibirQuantidadeInicial('polia','cabecote', 'anel');
 });
 </script>
                     <div class="products">
@@ -315,6 +315,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <a href="carrinho_polia.html" class="buy-link" target="_blank">
                        
                         </a>
+                        
                         <input type="number" id="quantidadeInput_polia" class="quantity-input" min="1" value="1">
       
                          <!-- Botão para adicionar quantidade -->
@@ -324,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <button class="quantity-button" onclick="removerQuantidade('polia')">Remover</button>
                       </div>
                   
-                      <div class="product" id="produto1">
+                      <div class="product" id="cabecote">
                         <img src="imagensp/cabecotehome.jpeg" alt="Produto 2" class="zoomable">
                         <h3>Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</h3>
                         <p class="price">R$ 6.903,48</p>
@@ -332,18 +333,33 @@ document.addEventListener('DOMContentLoaded', function() {
                         <p id="estoque_cabecote">Estoque: <span id="quantidade_cabecote"></span></p>
                        
                         <a href="carrinho_cabecote.html" class="buy-link" target="_blank">
-                          <button class="buy-button">Comprar</button>
+                       
                         </a>
+                        <input type="number" id="quantidadeInput_cabecote" class="quantity-input" min="1" value="1">
+      
+                         <!-- Botão para adicionar quantidade -->
+                        <button class="quantity-button" onclick="adicionarQuantidade('cabecote')">Adicionar</button>
+                        
+                        <input type="number" id="quantidadeRemoverInput_cabecote" class="quantity-input" min="1" value="1">
+                        <button class="quantity-button" onclick="removerQuantidade('cabecote')">Remover</button>
                       </div>
                   
-                      <div class="product">
+                      <div class="product" id="anel">
                           <img src="imagensp/aneldeencostohome.jpeg" alt="Produto 1" class="zoomable">
                           <h3>Anel de encosto - Man D08 34 4 CILS / D08 6 CILS Diesel </h3>
                           <p class="price">R$ 196,21 </p>
                           <p> ou 6x de R$ 32,70</p>
                            <p id="estoque_anel">Estoque: <span id="quantidade_anel"></span></p>
                           <a href="carrinho_anel.html" class="buy-link" target="_blank">
-                            <button class="buy-button">Comprar</button></a>
+                          </a>
+
+                          <input type="number" id="quantidadeInput_anel" class="quantity-input" min="1" value="1">
+        
+                           <!-- Botão para adicionar quantidade -->
+                          <button class="quantity-button" onclick="adicionarQuantidade('anel')">Adicionar</button>
+                          
+                          <input type="number" id="quantidadeRemoverInput_anel" class="quantity-input" min="1" value="1">
+                          <button class="quantity-button" onclick="removerQuantidade('anel')">Remover</button>
                         </div>
                   
 
