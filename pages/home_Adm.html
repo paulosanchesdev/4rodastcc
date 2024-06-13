@@ -39,7 +39,7 @@
         <div class="overlay"></div>
 
         <div class="user-icon">
-          <i class="fa fa-user"> Paulo  Sanches</i>
+          <i class="fa fa-user"> Controle estoque</i>
         </div><br>
 
         <div class="container">
@@ -115,13 +115,12 @@
                       <div></div>
                       <div></div>
                     </div>
-                    <a href="home_Adm.html" class="hex-content"target="_blank">
-                
+                    <a class="hex-content">
                       <span class="hex-content-inner">
                         <span class="icon">
 
                         </span>
-                        <span class="title">Admin</span>
+                        <span class="title">Sobre</span>
                       </span>
                       <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
                         xmlns="http://www.w3.org/2000/svg">
@@ -205,109 +204,63 @@
                   </div>
 
 
-
+                    <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 
                     <!-- INICIO GRID PRODUTOS__________________________________________________________________________________________________ -->
 
-                    <div class="products">
-                      <div class="product" id="polia">
-                        <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
-                        <h3>Polia-Livre Ponta Alternador/IVECO/NEW DAILY APÓS 2008</h3>
-                        <p class="price">R$ 312,85</p>
-                        <p>ou 6x de R$ 52,14</p>
-                        <p id="estoque_polia">Estoque: <span id="quantidade_polia"></span></p>
-                        
-                        <a href="carrinho_polia.html" class="buy-link" target="_blank">
-                          <button class="buy-button">Comprar</button>
-                        </a>
-                      </div>
+                    <!DOCTYPE html>
+
+                    <h1>Cadastro de Produtos</h1>
+                    <form id="produtoForm">
+                      <label for="nomeProduto">Nome do Produto:</label>
+                      <input type="text" id="nomeProduto" name="nomeProduto" required>
+                      <br>
+                      <label for="quantidadeProduto">Quantidade:</label>
+                      <input type="number" id="quantidadeProduto" name="quantidadeProduto" required>
+                      <br>
+                      <button type="submit">Cadastrar Produto</button>
+                    </form>
                   
-                      <div class="product" id="produto1">
-                        <img src="imagensp/cabecotehome.jpeg" alt="Produto 2" class="zoomable">
-                        <h3>Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</h3>
-                        <p class="price">R$ 6.903,48</p>
-                        <p>ou 6x de R$ 1.150,58</p>
-                        <p id="estoque_cabecote">Estoque: <span id="quantidade_cabecote"></span></p>
-                       
-                        <a href="carrinho_cabecote.html" class="buy-link" target="_blank">
-                          <button class="buy-button">Comprar</button>
-                        </a>
-                      </div>
+                    <script>
+                      // Configuração do Firebase
+                      const firebaseConfig = {
+                        apiKey: "AIzaSyC87IS5wFCe812olfBR3Nx31g2WvBnFmWI",
+                        authDomain: "estoque-produtos-7bdb6.firebaseapp.com",
+                        projectId: "estoque-produtos-7bdb6",
+                        storageBucket: "estoque-produtos-7bdb6.appspot.com",
+                        messagingSenderId: "545416352699",
+                        appId: "1:545416352699:web:1da21d586552f2601b6a9e",
+                        databaseURL: "https://estoque-produtos-7bdb6-default-rtdb.firebaseio.com/"
+                      };
                   
-                      <div class="product">
-                          <img src="imagensp/aneldeencostohome.jpeg" alt="Produto 1" class="zoomable">
-                          <h3>Anel de encosto - Man D08 34 4 CILS / D08 6 CILS Diesel </h3>
-                          <p class="price">R$ 196,21 </p>
-                          <p> ou 6x de R$ 32,70</p>
-                           <p id="estoque_anel">Estoque: <span id="quantidade_anel"></span></p>
-                          <a href="carrinho_anel.html" class="buy-link" target="_blank">
-                            <button class="buy-button">Comprar</button></a>
-                        </div>
+                      // Inicializa o Firebase
+                      firebase.initializeApp(firebaseConfig);
+                      const db = firebase.database();
                   
-
-
-                    <div class="product">
-                      <img src="imagensp/balancinfiattorohome.jpeg" alt="Produto 1" class="zoomable">
-                      <h3> Balancim - Fiat Toro | Jeep Renegate | Compass 2.0 16V </h3>
-                      <p class="price">R$ 313,60</p>
-                      <p>ou 6x de R$ 52,26 </p>
-                      <p id="estoque_balancim_fiat_toro">Estoque: <span id="quantidade_balancim_fiat_toro"></span></p>
-                      <a href="carrinho_balancim.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
-
-
-                    <div class="product">
-                      <img src="imagensp/tuboflexivelhome.jpeg" alt="Produto 1" class="zoomable">
-                      <h3>Tubo Flexível Bico Injetor - M.R- IVECO New Daily 3.0 </h3>
-                      <p class="price">R$ 435,70 </p>
-                      <p> ou 6x de R$ 72,61</p>
-                      <p id="estoque_tubo_flexivel_iveco">Estoque: <span id="quantidade_tubo_flexivel_iveco"></span></p>
-                      <a href="pages/5homecartubo.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
-
-                    <div class="product">
-                      <img src="imagensp/bielahome.jpg" alt="Produto 1" class="zoomable">
-                      <h3>Biela- MBB Sprinter 0M 611 2002/2012 (311CDI/313CDI/413CDI) </h3>
-                      <p class="price">R$ 415,99 </p>
-                      <p> ou 6x de R$ 69,33</p>
-                      <p id="estoque_biela_mbb">Estoque: <span id="quantidade_biela_mbb"></span></p>
-                      <a href="pages/6homecarbiela.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
-
-
-                    <div class="product">
-                      <img src="imagensp/blocomotorhome.jpg" alt="Produto 1" class="zoomable">
-                      <h3> Bloco do Motor-CHANA/EFFA/TOWNER 1.0L 8V GAS APOS 2007</h3>
-                      <p class="price">R$ 3.574,00</p>
-                      <p>ou 6x de R$ 595,66</p>
-                      <p id="estoque_bloco_effa">Estoque: <span id="quantidade_bloco_effa"></span></p>
-                      <a href="pages/7homecarblocomotor.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
-
-
-                    <div class="product">
-                      <img src="imagensp/bombaaguahome.jpeg" alt="Produto 1" class="zoomable">
-                      <h3> Bomba de Água- MBB 1620 OH-162 1 | OF-1721 00/OM 366LA 6 EURO 2 </h3>
-                      <p class="price">R$ 744,14</p>
-                      <p> ou 6x de R$ 124,02</p>
-                      <p id="estoque_bomba_agua_mbb">Estoque: <span id="quantidade_bomba_agua_mbb"></span></p>
-                      <a href="pages/8homecarbombaagua.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
-
-                    <div class="product">
-                      <img src="imagensp/bombacombustivelhome.jpg" alt="Produto 1" class="zoomable">
-                      <h3> Bomba de Combustível - Renault - TRAFIC GASOLINA CARBURADA </h3>
-                      <p class="price">R$ 226,91 </p>
-                      <p> ou 6x de R$ 37,81</p>
-                      <p id="estoque_bomba_combustivel">Estoque: <span id="quantidade_bomba_combustivel"></span></p>
-                      <a href="pages/9homecarbombacombustivel.html" class="buy-link" target="_blank">
-                        <button class="buy-button">Comprar</button></a>
-                    </div>
+                      // Função para adicionar produto no Firebase
+                      function adicionarProduto(nome, quantidade) {
+                        const produtoRef = db.ref('produtos').push();
+                        produtoRef.set({
+                          nome: nome,
+                          quantidade: quantidade
+                        }, (error) => {
+                          if (error) {
+                            alert("Erro ao salvar o produto: " + error);
+                          } else {
+                            alert("Produto salvo com sucesso!");
+                          }
+                        });
+                      }
+                  
+                      // Manipulador do formulário
+                      document.getElementById('produtoForm').addEventListener('submit', function(event) {
+                        event.preventDefault();
+                        const nomeProduto = document.getElementById('nomeProduto').value;
+                        const quantidadeProduto = document.getElementById('quantidadeProduto').value;
+                        adicionarProduto(nomeProduto, quantidadeProduto);
+                        document.getElementById('produtoForm').reset();
+                      });
+                    </script>
 
 
                      <!-- FINAL GRID PRODUTOS__________________________________________________________________________________________________ -->
@@ -538,60 +491,7 @@ z-index:1000;" target="_blank">
 
 <!--  INICIO ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
 
-<script>
-  const firebaseConfig = {
-   apiKey: "AIzaSyC87IS5wFCe812olfBR3Nx31g2WvBnFmWI",
-   authDomain: "estoque-produtos-7bdb6.firebaseapp.com",
-   projectId: "estoque-produtos-7bdb6",
-   storageBucket: "estoque-produtos-7bdb6.appspot.com",
-   messagingSenderId: "545416352699",
-   appId: "1:545416352699:web:1da21d586552f2601b6a9e"
- };
-
- // Initialize Firebase
- firebase.initializeApp(firebaseConfig);
- const db = firebase.database();
-
- // Função para atualizar o estoque no Firebase
- function atualizarEstoque(produtoId) {
-   var quantidadeSpan = document.getElementById('quantidade_' + produtoId);
-
-   // Atualize a quantidade em estoque no Firebase
-   var estoqueRef = db.ref('estoque/' + produtoId);
-   estoqueRef.transaction(function(estoqueAtual) {
-     // Adicione a lógica de atualização aqui, por exemplo, aumentar em 1
-     return (estoqueAtual || 0) + 1;
-   });
- }
-
- // Função para exibir a quantidade em estoque no HTML
- function exibirQuantidadeEstoque(produtoId) {
-   var quantidadeSpan = document.getElementById('quantidade_' + produtoId);
-
-   // Obtenha a quantidade em estoque do Firebase
-   var estoqueRef = db.ref('estoque/' + produtoId);
-   estoqueRef.on('value', function(snapshot) {
-     var quantidade = snapshot.val();
-     quantidadeSpan.textContent = quantidade || 0;
-   });
- }
-
- // Função para atualizar a quantidade total
- function atualizarQuantidadeTotal() {
-   // Adicione os IDs únicos de todos os produtos aqui
-   var produtos = ['polia', 'cabecote', 'anel', 'balancim_fiat_toro','tubo_flexivel_iveco','biela_mbb','bloco_effa',
-   'bomba_agua_mbb','bomba_combustivel',];
-
-   for (var i = 0; i < produtos.length; i++) {
-     exibirQuantidadeEstoque(produtos[i]);
-   }
- }
-
- // Chame a função para exibir a quantidade total quando a página carregar
- document.addEventListener('DOMContentLoaded', function() {
-   atualizarQuantidadeTotal();
- });
-</script>
+<
 
 <!--  FINAL ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
 
