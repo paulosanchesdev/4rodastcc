@@ -235,6 +235,24 @@
                   
                       // Inicializa o Firebase
                       firebase.initializeApp(firebaseConfig);
+                  
+                      // Função para autenticar usuário
+                      function autenticarUsuario() {
+                        firebase.auth().signInWithEmailAndPassword('contatopaulosanches@gmail.com', '500600')
+                          .then((userCredential) => {
+                            const user = userCredential.user;
+                            console.log('Usuário autenticado:', user.uid);
+                          })
+                          .catch((error) => {
+                            console.error('Erro ao autenticar usuário:', error);
+                          });
+                      }
+                  
+                      // Autentica o usuário quando a página é carregada
+                      window.onload = function() {
+                        autenticarUsuario();
+                      };
+                  
                       const db = firebase.database();
                   
                       // Função para adicionar produto no Firebase
