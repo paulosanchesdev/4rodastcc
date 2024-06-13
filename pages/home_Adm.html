@@ -208,7 +208,59 @@
 
 
                     <!-- INICIO GRID PRODUTOS__________________________________________________________________________________________________ -->
-
+                    <script>
+                    // Inicializa o Firebase
+                    firebase.initializeApp(firebaseConfig);
+                
+                    // Função para adicionar quantidade ao estoque
+                    function adicionarQuantidade(produtoId) {
+                      const quantidadeInput = document.getElementById('quantidadeInput_' + produtoId);
+                      const quantidade = parseInt(quantidadeInput.value, 10);
+                
+                      if (isNaN(quantidade) || quantidade <= 0) {
+                        alert("Digite uma quantidade válida maior que zero.");
+                        return;
+                      }
+                
+                      const estoqueRef = firebase.database().ref('estoque/' + produtoId);
+                      estoqueRef.transaction(function(estoqueAtual) {
+                        return (estoqueAtual || 0) + quantidade;
+                      }, function(error, committed, snapshot) {
+                        if (error) {
+                          console.error("Erro ao atualizar estoque:", error);
+                          alert("Erro ao atualizar estoque: " + error.message);
+                        } else if (!committed) {
+                          console.warn("Atualização de estoque cancelada.");
+                          alert("Atualização de estoque cancelada.");
+                        } else {
+                          console.log("Estoque atualizado com sucesso!");
+                          // Atualiza o valor exibido na página
+                          const quantidadeSpan = document.getElementById('quantidade_' + produtoId);
+                          if (quantidadeSpan) {
+                            quantidadeSpan.textContent = snapshot.val() || 0;
+                          }
+                        }
+                      });
+                
+                      // Limpa o campo de entrada após adicionar a quantidade
+                      quantidadeInput.value = 1;
+                    }
+                
+                    // Função para exibir a quantidade em estoque inicialmente
+                    function exibirQuantidadeInicial(produtoId) {
+                      const quantidadeSpan = document.getElementById('quantidade_' + produtoId);
+                      const estoqueRef = firebase.database().ref('estoque/' + produtoId);
+                      estoqueRef.on('value', function(snapshot) {
+                        const quantidade = snapshot.val();
+                        quantidadeSpan.textContent = quantidade || 0;
+                      });
+                    }
+                
+                    // Chama a função para exibir a quantidade inicial quando a página carrega
+                    document.addEventListener('DOMContentLoaded', function() {
+                      exibirQuantidadeInicial('polia');
+                    });
+                  </script>
                     <div class="products">
                       <div class="product" id="polia">
                         <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
@@ -224,7 +276,7 @@
       
                          <!-- Botão para adicionar quantidade -->
                         <button class="quantity-button" onclick="adicionarQuantidade('polia')">Adicionar</button>
-                        
+
                       </div>
                   
                       <div class="product" id="produto1">
