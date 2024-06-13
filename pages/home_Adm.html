@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
 
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
 
@@ -217,8 +218,13 @@
                         <p id="estoque_polia">Estoque: <span id="quantidade_polia"></span></p>
                         
                         <a href="carrinho_polia.html" class="buy-link" target="_blank">
-                          <button class="buy-button">Comprar</button>
+                       
                         </a>
+                        <input type="number" id="quantidadeInput_polia" class="quantity-input" min="1" value="1">
+      
+                         <!-- Botão para adicionar quantidade -->
+                        <button class="quantity-button" onclick="adicionarQuantidade('polia')">Adicionar</button>
+                        
                       </div>
                   
                       <div class="product" id="produto1">
