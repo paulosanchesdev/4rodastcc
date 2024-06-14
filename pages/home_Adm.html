@@ -341,33 +341,28 @@ document.addEventListener('DOMContentLoaded', function() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-// Função para atualizar o preço no Firebase e no HTML
+function atualizarPreco() {
+      const novoPreco = parseFloat(document.getElementById('novoPreco').value);
 
-function atualizarPreco(produtoId) {
-  const novoPreco = parseFloat(document.getElementById(`novoPreco_${produtoId}`).value);
-  
- 
+      // Verifica se o novo preço é válido
+      if (isNaN(novoPreco) || novoPreco <= 0) {
+        alert("Por favor, insira um valor válido para o preço.");
+        return;
+      }
 
-
-  if (isNaN(novoPreco) || novoPreco <= 0) {
-    alert("Por favor, insira um valor válido para o preço.");
-    return;
-  }
-
-  const updates = {};
-  updates[`/produtos/${produtoId}/preco`] = novoPreco;
-
-  return firebase.database().ref().update(updates)
-    .then(() => {
-      console.log(`Preço de ${produtoId} atualizado com sucesso.`);
-      // Atualizar o preço no HTML
-      document.querySelector(`#${produtoId} .price`).innerText = `R$ ${novoPreco.toFixed(2)}`;
-    })
-    .catch((error) => {
-      console.error(`Erro ao atualizar o preço de ${produtoId}: `, error);
-    });
-}
-
+      // Atualiza o preço no Firebase
+      firebase.database().ref('preco/polia_preco').set(novoPreco)
+        .then(() => {
+          console.log("Preço atualizado com sucesso.");
+          alert("Preço atualizado com sucesso!");
+          // Atualiza o valor exibido na página (opcional)
+          document.getElementById('precoAtual').innerText = `R$ ${novoPreco.toFixed(2)}`;
+        })
+        .catch((error) => {
+          console.error("Erro ao atualizar o preço: ", error);
+          alert("Erro ao atualizar o preço. Verifique o console para mais detalhes.");
+        });
+    }
 
    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
@@ -420,8 +415,8 @@ function atualizarPreco(produtoId) {
                         <button class="quantity-button" onclick="removerQuantidade('polia')">Remover</button>
 
                         <br>
-                        <input type="number" id="novoPreco_preco_polia_preco" placeholder="Novo Preço">
-                        <button onclick="atualizarPreco('polia_preco')">Atualizar Preço</button>
+                        <input type="number" id="novoPreco" placeholder="Novo Preço">
+                        <button onclick="atualizarPreco()">Atualizar Preço</button>
                            
                         <input type="text" id="novasParcelas_polia" placeholder="Novo Valor das Parcelas (ex: 52,14)">
                         <button onclick="atualizarParcelas('polia')">Atualizar Valor das Parcelas</button>
