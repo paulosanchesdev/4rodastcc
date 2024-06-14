@@ -339,33 +339,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Função para atualizar o preço no Firebase e no HTML
+// Função para atualizar o preço no Firebase
 function atualizarPreco(produtoId) {
+  // Captura o novo preço do campo de entrada
   const novoPreco = parseFloat(document.getElementById(`novoPreco_${produtoId}`).value);
   
- 
-
-
+  // Verifica se o novo preço é um número válido e maior que zero
   if (isNaN(novoPreco) || novoPreco <= 0) {
     alert("Por favor, insira um valor válido para o preço.");
     return;
   }
 
+  // Prepara o objeto de atualização para o Firebase
   const updates = {};
   updates[`/produtos/${produtoId}/preco`] = novoPreco;
 
+  // Envia as atualizações para o Firebase
   return firebase.database().ref().update(updates)
     .then(() => {
       console.log(`Preço de ${produtoId} atualizado com sucesso.`);
-      // Atualizar o preço no HTML
+      // Atualiza o preço no HTML após o sucesso no Firebase
       document.querySelector(`#${produtoId} .price`).innerText = `R$ ${novoPreco.toFixed(2)}`;
     })
     .catch((error) => {
       console.error(`Erro ao atualizar o preço de ${produtoId}: `, error);
     });
 }
-
 
    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
@@ -418,8 +417,8 @@ function atualizarPreco(produtoId) {
                         <button class="quantity-button" onclick="removerQuantidade('polia')">Remover</button>
 
                         <br>
-                        <input type="number" id="novoPreco_polia_preco" placeholder="Novo Preço">
-                        <button onclick="atualizarPreco('polia_preco')">Atualizar Preço</button>
+                        <input type="number" id="novoPreco_polia" placeholder="Novo Preço">
+                        <button onclick="atualizarPreco('polia')">Atualizar Preço</button>
                            
                         <input type="text" id="novasParcelas_polia" placeholder="Novo Valor das Parcelas (ex: 52,14)">
                         <button onclick="atualizarParcelas('polia')">Atualizar Valor das Parcelas</button>
