@@ -336,13 +336,72 @@ function exibirQuantidadeInicial(produtoId) {
 document.addEventListener('DOMContentLoaded', function() {
   exibirQuantidadeInicial('polia','cabecote', 'anel');
 });
+
+
+
+// Função para atualizar o preço no Firebase e no HTML
+function atualizarPreco(produtoId) {
+  const novoPreco = parseFloat(document.getElementById(`novoPreco_${produtoId}`).value);
+  
+ 
+
+
+  if (isNaN(novoPreco) || novoPreco <= 0) {
+    alert("Por favor, insira um valor válido para o preço.");
+    return;
+  }
+
+  const updates = {};
+  updates[`/produtos/${produtoId}/preco`] = novoPreco;
+
+  return firebase.database().ref().update(updates)
+    .then(() => {
+      console.log(`Preço de ${produtoId} atualizado com sucesso.`);
+      // Atualizar o preço no HTML
+      document.querySelector(`#${produtoId} .price`).innerText = `R$ ${novoPreco.toFixed(2)}`;
+    })
+    .catch((error) => {
+      console.error(`Erro ao atualizar o preço de ${produtoId}: `, error);
+    });
+}
+
+
+   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
+   
+   function atualizarParcelas(produtoId) {
+  const novasParcelasString = document.getElementById(`novasParcelas_${produtoId}`).value;
+  
+  // Substitui vírgula por ponto e converte para float
+  const novoValorParcela = parseFloat(novasParcelasString.replace(',', '.'));
+
+  if (isNaN(novoValorParcela) || novoValorParcela <= 0) {
+    alert("Por favor, insira um valor válido para as parcelas.");
+    return;
+  }
+
+  const updates = {};
+  updates[`/produtos/${produtoId}/parcelas`] = novoValorParcela;
+
+  firebase.database().ref().update(updates)
+    .then(() => {
+      console.log(`Valor das parcelas de ${produtoId} atualizado com sucesso.`);
+      // Atualizar o valor das parcelas no HTML
+      document.querySelector(`#${produtoId} .parcelas`).innerText = `ou 6x de R$ ${novoValorParcela.toFixed(2)}`;
+    })
+    .catch((error) => {
+      console.error(`Erro ao atualizar o valor das parcelas de ${produtoId}: `, error);
+    });
+}
+
 </script>
                     <div class="products">
                       <div class="product" id="polia">
                         <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
                         <h3>Polia-Livre Ponta Alternador/IVECO/NEW DAILY APÓS 2008</h3>
                         <p class="price">R$ 312,85</p>
-                        <p>ou 6x de R$ 52,14</p>
+                        <p class="parcelas">ou 6x de R$ 52.14</p>
+
                         <p id="estoque_polia">Estoque: <span id="quantidade_polia"></span></p>
                         
                         <a href="carrinho_polia.html" class="buy-link" target="_blank">
@@ -357,7 +416,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <input type="number" id="quantidadeRemoverInput_polia" class="quantity-input" min="1" value="1">
                         <button class="quantity-button" onclick="removerQuantidade('polia')">Remover</button>
 
-                       
+                        <br>
+                        <input type="number" id="novoPreco_polia" placeholder="Novo Preço">
+                        <button onclick="atualizarPreco('polia')">Atualizar Preço</button>
+                           
+                        <input type="text" id="novasParcelas_polia" placeholder="Novo Valor das Parcelas (ex: 52,14)">
+                        <button onclick="atualizarParcelas('polia')">Atualizar Valor das Parcelas</button>
                       </div>
                   
                       <div class="product" id="cabecote">
@@ -377,7 +441,14 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         <input type="number" id="quantidadeRemoverInput_cabecote" class="quantity-input" min="1" value="1">
                         <button class="quantity-button" onclick="removerQuantidade('cabecote')">Remover</button>
-                      </div>
+
+                        <br>
+                          <input type="number" id="novoPreco_cabecote" placeholder="Novo Preço">
+                          <button onclick="atualizarPreco('cabecote')">Atualizar Preço</button>
+
+                          <input type="text" id="novasParcelas_cabecote" placeholder="Novo Valor das Parcelas (ex: 52,14)">
+                          <button onclick="atualizarParcelas('cabecote')">Atualizar Valor das Parcelas</button>
+                        </div>
                   
                       <div class="product" id="anel">
                           <img src="imagensp/aneldeencostohome.jpeg" alt="Produto 1" class="zoomable">
@@ -395,6 +466,10 @@ document.addEventListener('DOMContentLoaded', function() {
                           
                           <input type="number" id="quantidadeRemoverInput_anel" class="quantity-input" min="1" value="1">
                           <button class="quantity-button" onclick="removerQuantidade('anel')">Remover</button>
+
+                          <br>
+                          <input type="number" id="novoPreco_anel" placeholder="Novo Preço">
+                          <button onclick="atualizarPreco('anel')">Atualizar Preço</button>
                         </div>
                   
 
