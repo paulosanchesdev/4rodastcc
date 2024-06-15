@@ -56,6 +56,44 @@
     .quantity-button:hover, .price-button:hover {
       background-color: #F2AC57;
     }
+
+
+    .btn-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-container a.button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        
+
+        .button_cadastrar {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+
+            position: fixed;
+            left: 10px; /* Ajuste conforme necessário */
+            top: 40%; /* Centraliza verticalmente na metade da tela */
+            transform: translateY(-50%);
+            z-index: 1000; /* Garante que o botão esteja sempre acima de outros elementos */
+            border-radius: 5%;
+        }
+
   </style>
     
     
@@ -221,7 +259,7 @@
 
                     <!-- FINAL MENU___________________________________________________________________________________________________________ -->
 
-                  
+                    <a href="cadastroe_remover.html" class="button_cadastrar" target="_blank">Cadastrar Produtos</a>
                   
 
 
@@ -234,8 +272,8 @@
                       placeholder="Digite sua pesquisa">
                     <button onclick="pesquisar()">Pesquisar</button>
                   </div>
-
-
+                
+                  
 
 
                     <!-- INICIO GRID PRODUTOS__________________________________________________________________________________________________ -->
@@ -348,6 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
    
 
 </script>
+
                     <div class="products">
                       <div class="product" id="polia">
                         <img src="imagensp/poli.jpg" alt="Produto 1" class="zoomable">
