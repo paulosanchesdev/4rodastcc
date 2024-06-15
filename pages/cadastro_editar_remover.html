@@ -105,8 +105,10 @@
 
         <button class="button2" type="button" onclick="addProduct()">Cadastrar Produto</button>
     </form>
-        
+    <h2>Pesquisar Produtos</h2>
+    <input type="text" id="searchInput" placeholder="Buscar por nome do produto" oninput="searchProducts()"> 
     <h2>Produtos Registrados</h2>
+    
     <ul id="productList"></ul>
 
     <script>
@@ -235,6 +237,46 @@
 
         // Carregar a lista de produtos ao carregar a página
         window.onload = fetchProducts;
+
+
+        function searchProducts() {
+    const searchInput = document.getElementById('searchInput');
+    const searchText = searchInput.value.toLowerCase();
+
+    database.ref('produtos').once('value', (snapshot) => {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = '';
+
+        snapshot.forEach((childSnapshot) => {
+            const product = childSnapshot.val();
+            const productName = product.nome.toLowerCase();
+
+            if (productName.includes(searchText)) {
+                const li = document.createElement('li');
+                li.textContent = `${product.nome} - Preço: ${product.preco} - Quantidade: ${product.quantidade}`;
+
+                // Botões de edição e remoção permanecem os mesmos
+                const btnContainer = document.createElement('div');
+                btnContainer.classList.add('btn-container');
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Quantidade';
+                editButton.onclick = () => showEditForm(childSnapshot.key, product.quantidade);
+                btnContainer.appendChild(editButton);
+                const editPriceButton = document.createElement('button');
+                editPriceButton.textContent = 'Editar Preço';
+                editPriceButton.onclick = () => showEditPriceForm(childSnapshot.key, product.preco);
+                btnContainer.appendChild(editPriceButton);
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remover';
+                removeButton.onclick = () => removeProduct(childSnapshot.key);
+                btnContainer.appendChild(removeButton);
+                li.appendChild(btnContainer);
+                productList.appendChild(li);
+            }
+        });
+    });
+}
+
 
     </script>
 </body>
