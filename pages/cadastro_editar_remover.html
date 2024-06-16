@@ -17,6 +17,7 @@
         }
 
         form, ul {
+            width: 80%;
             background: #fff;
             padding: 20px;
             margin: 20px 0;
@@ -24,12 +25,13 @@
         }
 
         label {
+
             display: block;
             margin: 10px 0 5px;
         }
 
         input[type="text"] {
-            width: 100%;
+            width: 95%;
             padding: 8px;
             margin-bottom: 10px;
             border: 1px solid #ccc;
@@ -38,6 +40,10 @@
 
         .button2 {
             background-color: #218838;
+        }
+
+       .button2:hover {
+            background-color: #F2AC57;
         }
 
         button {
@@ -83,6 +89,13 @@
 
         li button:first-child {
             margin-left: 0; /* Remover margem à esquerda do primeiro botão */
+        }
+        #searchInput {
+        width: 100%; /* Ajuste o tamanho para 100% da largura do contêiner */
+        max-width: 600px; /* Defina um tamanho máximo para o input */
+        padding: 10px; /* Adicione preenchimento interno */
+        font-size: 16px; /* Defina o tamanho da fonte */
+        box-sizing: border-box; /* Inclui padding e border no cálculo da largura total */
         }
     </style>
 
@@ -174,7 +187,7 @@
                     
                     // Botão para editar preço
                     const editPriceButton = document.createElement('button');
-                    editPriceButton.textContent = 'Editar Preço';
+                    editPriceButton.textContent = 'Preço';
                     editPriceButton.onclick = () => showEditPriceForm(childSnapshot.key, product.preco);
                     btnContainer.appendChild(editPriceButton);
                     
@@ -263,7 +276,7 @@
                 editButton.onclick = () => showEditForm(childSnapshot.key, product.quantidade);
                 btnContainer.appendChild(editButton);
                 const editPriceButton = document.createElement('button');
-                editPriceButton.textContent = 'Editar Preço';
+                editPriceButton.textContent = 'Preço';
                 editPriceButton.onclick = () => showEditPriceForm(childSnapshot.key, product.preco);
                 btnContainer.appendChild(editPriceButton);
                 const removeButton = document.createElement('button');
