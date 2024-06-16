@@ -156,37 +156,38 @@
                     const errorCode = error.code;
                     const errorMessage = error.message;
                     console.log(errorCode + errorMessage)
+                    alert("Somente pessoas autorizadas.");
+                    
                 })
         }
 
         const userSignIn = async () => {
-            const signInEmail = userEmail.value;
-            const signInPassword = userPassword.value;
-            signInWithEmailAndPassword(auth, signInEmail, signInPassword)
-                .then((userCredential) => {
-                    const user = userCredential.user;
-                    alert("Você logou com sucesso!");
-                    window.location.href = "home_usuario.html";
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.log(errorCode + errorMessage)
-                })
-        }
+    const signInEmail = userEmail.value;
+    const signInPassword = userPassword.value;
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, signInEmail, signInPassword);
+        const user = userCredential.user;
+        alert("Você logou com sucesso!");
+        window.location.href = "home_usuario.html";
+    } catch (error) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode + errorMessage);
+        alert("Somente pessoas autorizadas.");
+    }
+}
 
-        const checkAuthState = async () => {
-            onAuthStateChanged(auth, user => {
-                if (user) {
-                    authForm.style.display = 'none';
-                    secretContent.style.display = 'block';
-                }
-                else {
-                    authForm.style.display = 'block';
-                    secretContent.style.display = 'none';
-                }
-            })
+const checkAuthState = async () => {
+    onAuthStateChanged(auth, user => {
+        if (user) {
+            authForm.style.display = 'none';
+            secretContent.style.display = 'block';
+        } else {
+            authForm.style.display = 'block';
+            secretContent.style.display = 'none';
         }
+    });
+}
 
         const userSignOut = async () => {
             await signOut(auth);
