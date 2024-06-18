@@ -519,13 +519,15 @@
     var cidade = document.getElementById('cidade').value;
     var estado = document.getElementById('estado').value;
     var total = document.getElementById('total').innerText;
+    
 
     // Verificando se todos os campos necessários estão preenchidos
     if (!nome || !cep || !logradouro || !numero || !cidade || !estado || !total) {
         alert('Por favor, preencha todos os campos antes de finalizar a compra.');
         return;
     }
-
+    
+    
     // Criando o conteúdo HTML do pop-up
     var popupContent = `
         <div>
@@ -537,6 +539,7 @@
             <p><strong>Cidade:</strong> ${cidade}</p>
             <p><strong>Estado:</strong> ${estado}</p>
             <p id="total"> ${total} </p>
+
             <div id="qrcode"></div>
         </div>
     `;

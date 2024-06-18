@@ -127,44 +127,45 @@
         }
 
         #mostrarProdutosBtn:hover {
-            background-color: #F2AC57;
+            background-color: #F2AC57; 
         }
 
         button#finalizarCompraBtn {
-            background-color: #4caf50;
-            color: #ffffff;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
+        background-color: #4caf50;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+    }
 
-        button#finalizarCompraBtn:hover {
-            background-color: #F2AC57;
-        }
+    button#finalizarCompraBtn:hover {
+        background-color:  #F2AC57;
+    }
 
 
-        button#buscarEnderecoBtn {
+    button#buscarEnderecoBtn {
+        
+        background-color: #4caf50;
+        color: #ffffff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.3s ease;
+    }
 
-            background-color: #4caf50;
-            color: #ffffff;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
+    button#buscarEnderecoBtn:hover {
+        background-color:  #F2AC57; 
+    }
 
-        button#buscarEnderecoBtn:hover {
-            background-color: #F2AC57;
-        }
-
-        .logo1 {
+    .logo1 {
             width: 70%;
             margin: 0 auto;
             margin-top: 1%;
         }
+      
     </style>
 </head>
 
@@ -191,8 +192,55 @@
             <tbody>
 
 
+              
+
                 <!--________Produto 1 ___________-->
 
+                
+                <tr>
+                    <td onclick="expandirTexto(this)">Tubo Flexível Bico Injetor - M.R- IVECO New Daily 3.0</td>
+                    <td><img class="produto-img"
+                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/tuboflexivelhome.jpeg?alt=media&token=57d937f4-52a1-4f86-aaee-614641576f20"
+                            alt="Produto 5"></td>
+
+                    <td><input type="checkbox" class="produto" data-id="5" data-preco="435.70"
+                            onchange="atualizarEstoqueEQuantidadeTotal('tubo_flexivel_iveco', 1);">></td>
+                    <td>
+                        <input type="number" class="quantidade-checkbox" data-id="5" value="1" min="1">
+                    </td>
+                    <td>R$ <span id="preco_tubo_flexivel_iveco_preco"></span></td>
+                    <td id="totalProduto5">R$ 0.00</td>
+                    <td>
+                        <span id="quantidade_tubo_flexivel_iveco">0</span>
+                    </td>
+                </tr>
+              
+
+                
+                  <!--________Produto 2 ___________-->
+
+                  <tr>
+                    <td onclick="expandirTexto(this)">Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</td>
+                    <td><img class="produto-img"
+                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/cabecotehome.jpeg?alt=media&token=2ea3a7c2-b54c-4095-927d-4021cf8f9540"
+                            alt="Produto 2"></td>
+
+                    <td><input type="checkbox" class="produto" data-id="2" data-preco="6903.48"
+                            onchange="atualizarEstoqueEQuantidadeTotal('cabecote', 1);">></td>
+                    <td>
+                        <input type="number" class="quantidade-checkbox" data-id="2" value="1" min="1">
+                    </td>
+                    <td>R$ <span id="preco_cabecote_preco"></span></td>
+                    <td id="totalProduto2">R$ 0.00</td>
+                    <td>
+                        <span id="quantidade_cabecote">0</span>
+                    </td>
+                </tr>
+
+
+                <!--________Produto 3 ___________-->
+
+                
                 <tr>
                     <td onclick="expandirTexto(this)">Polia-Livre Ponta Alternador /IVECO/NEW DAILY APÓS 2008</td>
                     <td><img class="produto-img"
@@ -217,29 +265,9 @@
 
 
 
-                <!--________Produto 2 ___________-->
+                <!--________Produto 4 ___________-->
 
-                <tr>
-                    <td onclick="expandirTexto(this)">Cabeçote-hyundai HR | K2500 2.5 DCI 16v Taranto</td>
-                    <td><img class="produto-img"
-                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/cabecotehome.jpeg?alt=media&token=2ea3a7c2-b54c-4095-927d-4021cf8f9540"
-                            alt="Produto 2"></td>
-
-                    <td><input type="checkbox" class="produto" data-id="2" data-preco="6903.48"
-                            onchange="atualizarEstoqueEQuantidadeTotal('cabecote', 1);">></td>
-                    <td>
-                        <input type="number" class="quantidade-checkbox" data-id="2" value="1" min="1">
-                    </td>
-                    <td>R$ <span id="preco_cabecote_preco"></span></td>
-                    <td id="totalProduto2">R$ 0.00</td>
-                    <td>
-                        <span id="quantidade_cabecote">0</span>
-                    </td>
-                </tr>
-
-
-                <!--________Produto 3 ___________-->
-
+               
                 <tr>
                     <td onclick="expandirTexto(this)">Anel de encosto - Man D08 34 4 CILS / D08 6 CILS Diesel</td>
                     <td><img class="produto-img"
@@ -259,7 +287,8 @@
                 </tr>
 
 
-                <!--________Produto 4 ___________-->
+                <!--________Produto 5 ___________-->
+
 
                 <tr>
                     <td onclick="expandirTexto(this)">Balancim - Fiat Toro | Jeep Renegate | Compass 2.0 16V</td>
@@ -278,29 +307,6 @@
                         <span id="quantidade_balancim_fiat_toro">0</span>
                     </td>
                 </tr>
-
-
-
-                <!--________Produto 5 ___________-->
-
-                <tr>
-                    <td onclick="expandirTexto(this)">Tubo Flexível Bico Injetor - M.R- IVECO New Daily 3.0</td>
-                    <td><img class="produto-img"
-                            src="https://firebasestorage.googleapis.com/v0/b/estoque-produtos-7bdb6.appspot.com/o/tuboflexivelhome.jpeg?alt=media&token=57d937f4-52a1-4f86-aaee-614641576f20"
-                            alt="Produto 5"></td>
-
-                    <td><input type="checkbox" class="produto" data-id="5" data-preco="435.70"
-                            onchange="atualizarEstoqueEQuantidadeTotal('tubo_flexivel_iveco', 1);">></td>
-                    <td>
-                        <input type="number" class="quantidade-checkbox" data-id="5" value="1" min="1">
-                    </td>
-                    <td>R$ <span id="preco_tubo_flexivel_iveco_preco"></span></td>
-                    <td id="totalProduto5">R$ 0.00</td>
-                    <td>
-                        <span id="quantidade_tubo_flexivel_iveco">0</span>
-                    </td>
-                </tr>
-
 
 
 
@@ -390,16 +396,14 @@
             </tbody>
         </table>
 
-        <button id="mostrarProdutosBtn"> + Produtos</button>
+        <button  id="mostrarProdutosBtn"> + Produtos</button>
 
         <p><strong>Frete Grátis em compras acima de R$200,00</strong></p>
 
 
 
-        <p id="frete" style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;">
-            <strong>Frete:</strong> R$ 50.00</p>
-        <p id="total" style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;">
-            <strong>Total:</strong> R$ 0.00</p>
+        <p id="frete"style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;"><strong>Frete:</strong> R$ 50.00</p>
+        <p id="total"style="font-weight: bold; font-size: 1.2em;background-color: black; padding: 5px;"><strong>Total:</strong> R$ 0.00</p>
 
 
     </div>
@@ -496,8 +500,8 @@
             const titulo = document.querySelector('h1').textContent;
             const total = document.getElementById('total').textContent;
             const totalSemRotulo = total.replace('Total: ', '');  // Nova variável sem o rótulo
-
-
+            
+            
 
             const endereco = `
             Nome: ${document.getElementById('nome').value}<br>
@@ -728,8 +732,8 @@
 
 
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <a href="https://wa.me/55(aqui seu numero com ddd | tudo junto)?text=Adorei%20seu%20artigo" style="position:fixed;
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+            <a href="https://wa.me/55(aqui seu numero com ddd | tudo junto)?text=Adorei%20seu%20artigo" style="position:fixed;
 
         width:60px;height:60px;bottom:40px;right:5px;
         top: 20%;
@@ -738,10 +742,10 @@
         color:black;border-radius:50px;text-align:center;font-size:30px;box-shadow: 1px 1px 2px #888;
         z-index:1000;" target="_blank">
 
-        <i style="margin-top:15px" class="fa fa-whatsapp"></i>
-    </a>
-    </main>
-    </div>
+                <i style="margin-top:15px" class="fa fa-whatsapp"></i>
+            </a>
+            </main>
+            </div>
 
 
 
@@ -770,12 +774,9 @@
         });
     </script>
 
-
-
     <script>
     document.getElementById('nome').value = 'Paulo Sanches';
     </script>
-
 </body>
 
 </html>
