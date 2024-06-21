@@ -362,7 +362,6 @@ function fetchProducts() {
                 });
             });
         }
-
         function generateReport() {
     database.ref('produtos').once('value', (snapshot) => {
         let report = 'Relatório de Produtos\n\n';
@@ -371,25 +370,31 @@ function fetchProducts() {
             report += `Nome: ${product.nome}\nPreço: ${product.preco}\nQuantidade: ${product.quantidade}\nÚltima Alteração: ${product.data}\n`;
 
             if (product.historico) {
-    report += '\nHistórico de Alterações:\n';
-    product.historico.forEach((alteracao) => {
-        if (alteracao.acao === 'Cadastro') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço: ${alteracao.preco}\n`;
-        } else if (alteracao.acao === 'Edição de Quantidade') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade Anterior: ${alteracao.quantidadeAnterior}, Quantidade Atual: ${alteracao.quantidadeAtual}, Preço: ${alteracao.preco}\n`;
-            
-            // Adicionar informações de vendas
-            const vendas = alteracao.vendas || 0;
-            report += `  Vendas: ${vendas}\n`;
-        } else if (alteracao.acao === 'Edição de Preço') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço Anterior: ${alteracao.precoAnterior}, Preço Atual: ${alteracao.precoAtual}\n`;
-        } else if (alteracao.acao === 'Remoção do Estoque') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço: ${alteracao.preco}\n`;
-        }
+                report += '\nHistórico de Alterações:\n';
+                product.historico.forEach((alteracao) => {
+                    if (alteracao.acao === 'Cadastro') {
+                        report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço: ${alteracao.preco}\n`;
+                    } else if (alteracao.acao === 'Edição de Quantidade') {
+                        if (alteracao.quantidadeAtual > alteracao.quantidadeAnterior) {
+                            report += `- Ação: Entrada no estoque, Data: ${alteracao.data}, Quantidade Anterior: ${alteracao.quantidadeAnterior}, Quantidade Atual: ${alteracao.quantidadeAtual}, Preço: ${alteracao.preco}\n`;
+                        } else if (alteracao.quantidadeAtual < alteracao.quantidadeAnterior) {
+                            report += `- Ação: Vendas, Data: ${alteracao.data}, Quantidade Anterior: ${alteracao.quantidadeAnterior}, Quantidade Atual: ${alteracao.quantidadeAtual}, Preço: ${alteracao.preco}\n`;
+                        } else {
+                            report += `- Ação: Edição de Quantidade, Data: ${alteracao.data}, Quantidade Anterior: ${alteracao.quantidadeAnterior}, Quantidade Atual: ${alteracao.quantidadeAtual}, Preço: ${alteracao.preco}\n`;
+                        }
+                    } else if (alteracao.acao === 'Edição de Preço') {
+                        report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço Anterior: ${alteracao.precoAnterior}, Preço Atual: ${alteracao.precoAtual}\n`;
+                    } else if (alteracao.acao === 'Remoção do Estoque') {
+                        report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço: ${alteracao.preco}\n`;
+                    }
+
                 });
             }
             report += '\n';
         });
+
+ 
+ 
 
         // Gerar PDF usando jsPDF
         const { jsPDF } = window.jspdf;
