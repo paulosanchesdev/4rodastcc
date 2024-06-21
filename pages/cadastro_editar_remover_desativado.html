@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerenciar Produtos</title>
+    <link rel="icon" type="image/png" href="imagensp/favroda.png.png">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        form, ul {
+            width: 80%;
+            background: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"] {
+            width: 95%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .button2 {
+            background-color: #218838;
+        }
+
+       .button2:hover {
+            background-color: #F2AC57;
+        }
+
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #f50c0c;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li .btn-container {
+            display: flex;
+            align-items: center;
+        }
+
+        li button {
+            padding: 8px 12px;
+            margin-left: 5px; /* Espaçamento entre os botões */
+        }
+
+        li button:first-child {
+            margin-left: 0; /* Remover margem à esquerda do primeiro botão */
+        }
+        #searchInput {
+        width: 100%; /* Ajuste o tamanho para 100% da largura do contêiner */
+        max-width: 600px; /* Defina um tamanho máximo para o input */
+        padding: 10px; /* Adicione preenchimento interno */
+        font-size: 16px; /* Defina o tamanho da fonte */
+        box-sizing: border-box; /* Inclui padding e border no cálculo da largura total */
+        }
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+</head>
+<body>
+    
+
+    <h2>Cadastrar Novo Produto</h2>
+    <form id="newProductForm">
+        <label for="product_name">Nome do Produto:</label>
+        <input type="text" id="product_name" name="product_name"><br>
+
+        <label for="product_price">Preço:</label>
+        <input type="text" id="product_price" name="product_price"><br>
+
+        <label for="product_quantity">Quantidade:</label>
+        <input type="text" id="product_quantity" name="product_quantity"><br>
+
+        <button class="button2" type="button" onclick="addProduct()">Cadastrar Produto</button>
+    </form>
+    <h2>Pesquisar Produtos</h2>
+    <input type="text" id="searchInput" placeholder="Buscar por nome do produto" oninput="searchProducts()"> 
+    <h2>Produtos Registrados</h2>
+    
+    <ul id="productList"></ul>
+
+    <script>
+        // Configuração do Firebase
+            const firebaseConfig = {
+            apiKey: "AIzaSyC87IS5wFCe812olfBR3Nx31g2WvBnFmWI",
+            authDomain: "estoque-produtos-7bdb6.firebaseapp.com",
+            databaseURL: "https://estoque-produtos-7bdb6-default-rtdb.firebaseio.com",
+            projectId: "estoque-produtos-7bdb6",
+            storageBucket: "estoque-produtos-7bdb6.appspot.com",
+            messagingSenderId: "545416352699",
+            appId: "1:545416352699:web:1da21d586552f2601b6a9e"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function addProduct() {
+            const form = document.getElementById('newProductForm');
+            const formData = new FormData(form);
+
+            const productName = formData.get('product_name');
+            const newProduct = {
+                nome: productName,
+                preco: parseFloat(formData.get('product_price')),
+                quantidade: parseInt(formData.get('product_quantity'))
+            };
+
+            // Salvar novo produto no Realtime Database com o nome do produto como chave
+            database.ref('produtos/' + productName).set(newProduct)
+                .then(() => {
+                    console.log("Produto cadastrado com sucesso!");
+                    alert('Produto cadastrado com sucesso!');
+                    form.reset(); // Limpar o formulário
+                    fetchProducts(); // Atualizar a lista de produtos
+                })
+                .catch((error) => {
+                    console.error("Erro ao cadastrar o produto: ", error);
+                    alert('Erro ao cadastrar o produto!');
+                });
+        }
+
+        function fetchProducts() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
+
+            database.ref('produtos').once('value', (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const product = childSnapshot.val();
+                    const li = document.createElement('li');
+                    li.textContent = `${product.nome} - Preço: ${product.preco} - Quantidade: ${product.quantidade}`;
+                    
+                    // Container para os botões
+                    const btnContainer = document.createElement('div');
+                    btnContainer.classList.add('btn-container');
+                    
+                    // Botão para editar quantidade
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Quantidade';
+                    editButton.onclick = () => showEditForm(childSnapshot.key, product.quantidade);
+                    btnContainer.appendChild(editButton);
+                    
+                    // Botão para editar preço
+                    const editPriceButton = document.createElement('button');
+                    editPriceButton.textContent = 'Preço';
+                    editPriceButton.onclick = () => showEditPriceForm(childSnapshot.key, product.preco);
+                    btnContainer.appendChild(editPriceButton);
+                    
+                    // Botão para remover
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remover';
+                    removeButton.onclick = () => removeProduct(childSnapshot.key);
+                    btnContainer.appendChild(removeButton);
+                    
+                    li.appendChild(btnContainer);
+                    productList.appendChild(li);
+                });
+            });
+        }
+
+        function showEditForm(productName, currentQuantity) {
+            const newQuantity = prompt(`Digite a nova quantidade para "${productName}":`, currentQuantity);
+            if (newQuantity !== null && !isNaN(newQuantity) && newQuantity.trim() !== '') {
+                database.ref('produtos/' + productName + '/quantidade').set(parseInt(newQuantity))
+                    .then(() => {
+                        console.log("Quantidade editada com sucesso!");
+                        alert('Quantidade editada com sucesso!');
+                        fetchProducts(); // Atualizar a lista de produtos
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao editar a quantidade: ", error);
+                        alert('Erro ao editar a quantidade!');
+                    });
+            }
+        }
+
+        function showEditPriceForm(productName, currentPrice) {
+            const newPrice = prompt(`Digite o novo preço para "${productName}":`, currentPrice);
+            if (newPrice !== null && !isNaN(newPrice) && newPrice.trim() !== '') {
+                database.ref('produtos/' + productName + '/preco').set(parseFloat(newPrice))
+                    .then(() => {
+                        console.log("Preço editado com sucesso!");
+                        alert('Preço editado com sucesso!');
+                        fetchProducts(); // Atualizar a lista de produtos
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao editar o preço: ", error);
+                        alert('Erro ao editar o preço!');
+                    });
+            }
+        }
+
+        function removeProduct(productName) {
+            database.ref('produtos/' + productName).remove()
+                .then(() => {
+                    console.log("Produto removido com sucesso!");
+                    alert('Produto removido com sucesso!');
+                    fetchProducts(); // Atualizar a lista de produtos
+                })
+                .catch((error) => {
+                    console.error("Erro ao remover o produto: ", error);
+                    alert('Erro ao remover o produto!');
+                });
+        }
+
+        // Carregar a lista de produtos ao carregar a página
+        window.onload = fetchProducts;
+
+
+        function searchProducts() {
+    const searchInput = document.getElementById('searchInput');
+    const searchText = searchInput.value.toLowerCase();
+
+    database.ref('produtos').once('value', (snapshot) => {
+        const productList = document.getElementById('productList');
+        productList.innerHTML = '';
+
+        snapshot.forEach((childSnapshot) => {
+            const product = childSnapshot.val();
+            const productName = product.nome.toLowerCase();
+
+            if (productName.includes(searchText)) {
+                const li = document.createElement('li');
+                li.textContent = `${product.nome} - Preço: ${product.preco} - Quantidade: ${product.quantidade}`;
+
+                // Botões de edição e remoção permanecem os mesmos
+                const btnContainer = document.createElement('div');
+                btnContainer.classList.add('btn-container');
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Quantidade';
+                editButton.onclick = () => showEditForm(childSnapshot.key, product.quantidade);
+                btnContainer.appendChild(editButton);
+                const editPriceButton = document.createElement('button');
+                editPriceButton.textContent = 'Preço';
+                editPriceButton.onclick = () => showEditPriceForm(childSnapshot.key, product.preco);
+                btnContainer.appendChild(editPriceButton);
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remover';
+                removeButton.onclick = () => removeProduct(childSnapshot.key);
+                btnContainer.appendChild(removeButton);
+                li.appendChild(btnContainer);
+                productList.appendChild(li);
+            }
+        });
+    });
+}
+
+
+    </script>
+</body>
+</html>

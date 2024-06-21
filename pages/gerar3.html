@@ -97,7 +97,6 @@
             box-sizing: border-box;
         }
     </style>
-    <script src="https://smtpjs.com/v3/smtp.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
@@ -129,20 +128,19 @@
     <script>
         // Configuração do Firebase
         const firebaseConfig = {
-            apiKey: "SuaApiKeyAqui",
+            apiKey: "AIzaSyC87IS5wFCe812olfBR3Nx31g2WvBnFmWI",
             authDomain: "estoque-produtos-7bdb6.firebaseapp.com",
             databaseURL: "https://estoque-produtos-7bdb6-default-rtdb.firebaseio.com",
             projectId: "estoque-produtos-7bdb6",
             storageBucket: "estoque-produtos-7bdb6.appspot.com",
-            messagingSenderId: "SeuSenderIdAqui",
-            appId: "SeuAppIdAqui"
+            messagingSenderId: "545416352699",
+            appId: "1:545416352699:web:1da21d586552f2601b6a9e"
         };
 
         // Inicializar Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Adicionar Produto
         function addProduct() {
             const form = document.getElementById('newProductForm');
             const formData = new FormData(form);
@@ -176,91 +174,77 @@
                 });
         }
 
-        // Atualizar lista de produtos
-        // Atualizar lista de produtos
-function fetchProducts() {
-    const productList = document.getElementById('productList');
-    productList.innerHTML = '';
+        function fetchProducts() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = '';
 
-    database.ref('produtos').once('value', (snapshot) => {
-        snapshot.forEach((childSnapshot) => {
-            const product = childSnapshot.val();
+            database.ref('produtos').once('value', (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    const product = childSnapshot.val();
+                    const li = document.createElement('li');
+                    li.textContent = `${product.nome} - Preço: ${product.preco} - Quantidade: ${product.quantidade} - Última Alteração: ${product.data}`;
+                    
+                    // Container para os botões
+                    const btnContainer = document.createElement('div');
+                    btnContainer.classList.add('btn-container');
+                    
+                    // Botão para editar quantidade
+                    const editButton = document.createElement('button');
+                    editButton.textContent = 'Quantidade';
+                    editButton.onclick = () => showEditForm(childSnapshot.key, product.quantidade);
+                    btnContainer.appendChild(editButton);
+                    
+                    // Botão para editar preço
+                    const editPriceButton = document.createElement('button');
+                    editPriceButton.textContent = 'Preço';
+                    editPriceButton.onclick = () => showEditPriceForm(childSnapshot.key, product.preco);
+                    btnContainer.appendChild(editPriceButton);
+                    
+                    // Botão para remover
+                    const removeButton = document.createElement('button');
+                    removeButton.textContent = 'Remover';
+                    removeButton.onclick = () => removeProduct(childSnapshot.key);
+                    btnContainer.appendChild(removeButton);
+                    
+                    li.appendChild(btnContainer);
+                    productList.appendChild(li);
+                });
+            });
+        }
 
-            // Verificar se o produto foi marcado como removido
-            if (!product.removido) {
-                const li = document.createElement('li');
-                li.textContent = `${product.nome} - Preço: ${product.preco} - Quantidade: ${product.quantidade} - Última Alteração: ${product.data}`;
-
-                // Container para os botões
-                const btnContainer = document.createElement('div');
-                btnContainer.classList.add('btn-container');
-
-                // Botão para editar quantidade
-                const editButton = document.createElement('button');
-                editButton.textContent = 'Quantidade';
-                editButton.onclick = () => showEditForm(childSnapshot.key, product.quantidade);
-                btnContainer.appendChild(editButton);
-
-                // Botão para editar preço
-                const editPriceButton = document.createElement('button');
-                editPriceButton.textContent = 'Preço';
-                editPriceButton.onclick = () => showEditPriceForm(childSnapshot.key, product.preco);
-                btnContainer.appendChild(editPriceButton);
-
-                // Botão para remover
-                const removeButton = document.createElement('button');
-                removeButton.textContent = 'Remover';
-                removeButton.onclick = () => removeProduct(childSnapshot.key);
-                btnContainer.appendChild(removeButton);
-
-                li.appendChild(btnContainer);
-                productList.appendChild(li);
-            }
-        });
-    });
-}
-
-
-        // Mostrar formulário para editar quantidade
         function showEditForm(productName, currentQuantity) {
-    const newQuantity = prompt(`Digite a nova quantidade para "${productName}":`, currentQuantity);
-    if (newQuantity !== null && !isNaN(newQuantity) && newQuantity.trim() !== '') {
-        const currentDate = new Date().toLocaleString();
-        const productRef = database.ref('produtos/' + productName);
-        productRef.once('value', (snapshot) => {
-            const product = snapshot.val();
-            const historico = product.historico || [];
-            const quantidadeAnterior = product.quantidade;
-            const quantidadeAtual = parseInt(newQuantity);
-            const quantidadeVendida = quantidadeAnterior - quantidadeAtual;
+            const newQuantity = prompt(`Digite a nova quantidade para "${productName}":`, currentQuantity);
+            if (newQuantity !== null && !isNaN(newQuantity) && newQuantity.trim() !== '') {
+                const currentDate = new Date().toLocaleString();
+                const productRef = database.ref('produtos/' + productName);
+                productRef.once('value', (snapshot) => {
+                    const product = snapshot.val();
+                    const historico = product.historico || [];
+                    historico.push({
+                        acao: 'Edição de Quantidade',
+                        data: currentDate,
+                        quantidadeAnterior: product.quantidade,
+                        quantidadeAtual: parseInt(newQuantity),
+                        preco: product.preco
+                    });
+                    productRef.update({
+                        quantidade: parseInt(newQuantity),
+                        data: currentDate,
+                        historico: historico
+                    })
+                    .then(() => {
+                        console.log("Quantidade editada com sucesso!");
+                        alert('Quantidade editada com sucesso!');
+                        fetchProducts(); // Atualizar a lista de produtos
+                    })
+                    .catch((error) => {
+                        console.error("Erro ao editar a quantidade: ", error);
+                        alert('Erro ao editar a quantidade!');
+                    });
+                });
+            }
+        }
 
-            historico.push({
-                acao: 'Edição de Quantidade',
-                data: currentDate,
-                quantidadeAnterior: quantidadeAnterior,
-                quantidadeAtual: quantidadeAtual,
-                preco: product.preco,
-                vendas: quantidadeVendida  // Adicionar vendas no histórico
-            });
-
-            productRef.update({
-                quantidade: quantidadeAtual,
-                data: currentDate,
-                historico: historico
-            })
-            .then(() => {
-                console.log("Quantidade editada com sucesso!");
-                alert('Quantidade editada com sucesso!');
-                fetchProducts(); // Atualizar a lista de produtos
-            })
-            .catch((error) => {
-                console.error("Erro ao editar a quantidade: ", error);
-                alert('Erro ao editar a quantidade!');
-            });
-        });
-    }
-}
-        // Mostrar formulário para editar preço
         function showEditPriceForm(productName, currentPrice) {
             const newPrice = prompt(`Digite o novo preço para "${productName}":`, currentPrice);
             if (newPrice !== null && !isNaN(newPrice) && newPrice.trim() !== '') {
@@ -294,24 +278,8 @@ function fetchProducts() {
             }
         }
 
-        // Remover produto
         function removeProduct(productName) {
-            const currentDate = new Date().toLocaleString();
-            const productRef = database.ref('produtos/' + productName);
-            productRef.once('value', (snapshot) => {
-                const product = snapshot.val();
-                const historico = product.historico || [];
-                historico.push({
-                    acao: 'Remoção do Estoque',
-                    data: currentDate,
-                    quantidade: product.quantidade,
-                    preco: product.preco
-                });
-                productRef.update({
-                    removido: true, // Marca o produto como removido
-                    data: currentDate,
-                    historico: historico
-                })
+            database.ref('produtos/' + productName).remove()
                 .then(() => {
                     console.log("Produto removido com sucesso!");
                     alert('Produto removido com sucesso!');
@@ -321,10 +289,8 @@ function fetchProducts() {
                     console.error("Erro ao remover o produto: ", error);
                     alert('Erro ao remover o produto!');
                 });
-            });
         }
 
-        // Pesquisar produtos
         function searchProducts() {
             const searchInput = document.getElementById('searchInput');
             const searchText = searchInput.value.toLowerCase();
@@ -364,82 +330,38 @@ function fetchProducts() {
         }
 
         function generateReport() {
-    database.ref('produtos').once('value', (snapshot) => {
-        let report = 'Relatório de Produtos\n\n';
-        snapshot.forEach((childSnapshot) => {
-            const product = childSnapshot.val();
-            report += `Nome: ${product.nome}\nPreço: ${product.preco}\nQuantidade: ${product.quantidade}\nÚltima Alteração: ${product.data}\n`;
+            database.ref('produtos').once('value', (snapshot) => {
+                let report = 'Relatório de Produtos\n\n';
+                snapshot.forEach((childSnapshot) => {
+                    const product = childSnapshot.val();
+                    report += `Nome: ${product.nome}\nPreço: ${product.preco}\nQuantidade: ${product.quantidade}\nÚltima Alteração: ${product.data}\n`;
 
-            if (product.historico) {
-    report += '\nHistórico de Alterações:\n';
-    product.historico.forEach((alteracao) => {
-        if (alteracao.acao === 'Cadastro') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço: ${alteracao.preco}\n`;
-        } else if (alteracao.acao === 'Edição de Quantidade') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade Anterior: ${alteracao.quantidadeAnterior}, Quantidade Atual: ${alteracao.quantidadeAtual}, Preço: ${alteracao.preco}\n`;
-            
-            // Adicionar informações de vendas
-            const vendas = alteracao.vendas || 0;
-            report += `  Vendas: ${vendas}\n`;
-        } else if (alteracao.acao === 'Edição de Preço') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço Anterior: ${alteracao.precoAnterior}, Preço Atual: ${alteracao.precoAtual}\n`;
-        } else if (alteracao.acao === 'Remoção do Estoque') {
-            report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço: ${alteracao.preco}\n`;
-        }
+                    if (product.historico) {
+                        report += '\nHistórico de Alterações:\n';
+                        product.historico.forEach((alteracao) => {
+                            if (alteracao.acao === 'Cadastro') {
+                                report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço: ${alteracao.preco}\n`;
+                            } else if (alteracao.acao === 'Edição de Quantidade') {
+                                report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade Anterior: ${alteracao.quantidadeAnterior}, Quantidade Atual: ${alteracao.quantidadeAtual}, Preço: ${alteracao.preco}\n`;
+                            } else if (alteracao.acao === 'Edição de Preço') {
+                                report += `- Ação: ${alteracao.acao}, Data: ${alteracao.data}, Quantidade: ${alteracao.quantidade}, Preço Anterior: ${alteracao.precoAnterior}, Preço Atual: ${alteracao.precoAtual}\n`;
+                            }
+                        });
+                    }
+                    report += '\n';
                 });
-            }
-            report += '\n';
-        });
 
-        // Gerar PDF usando jsPDF
-        const { jsPDF } = window.jspdf;
+                // Gerar PDF usando jsPDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                doc.setFontSize(10);
+                doc.text(report, 10, 10);
+                doc.save('relatorio_produtos.pdf');
+            });
+        }
 
-        // Configurações do documento PDF
-        const doc = new jsPDF({
-            orientation: 'landscape',  // 'portrait' ou 'landscape'
-            unit: 'mm',               // unidade de medida: mm, cm, in
-            format: 'a4',             // formato da página: a3, a4, a5, letter, legal
-            marginLeft: 10,           // margem esquerda
-            marginRight: 10,          // margem direita
-            marginTop: 10,            // margem superior
-            marginBottom: 10          // margem inferior
-        });
-
-        // Definir margem superior para o cabeçalho
-        let marginY = 10;
-
-        // Adicionar cabeçalho de página
-        const header = 'Relatório de Produtos';
-        doc.setFontSize(16);
-        doc.text(header, doc.internal.pageSize.getWidth() / 2, marginY, { align: 'center' });
-        marginY += 10; // Aumentar a margem após o cabeçalho
-
-        // Calcular a posição central horizontal
-        const centerX = doc.internal.pageSize.getWidth() / 2;
-
-        // Dividir o relatório em várias páginas se necessário
-        let lines = doc.splitTextToSize(report, doc.internal.pageSize.getWidth() - 20); // Reduzir margem
-        let cursorY = marginY; // Posição vertical atual
-
-        lines.forEach((line, index) => {
-            if (cursorY > doc.internal.pageSize.getHeight() - 20) { // Espaço insuficiente, nova página
-                doc.addPage();
-                cursorY = 10; // Resetar posição vertical
-            }
-            doc.text(line, 10, cursorY);
-            cursorY += 10; // Aumentar posição vertical para próxima linha
-        });
-        
-
-        // Salvar o PDF
-        doc.save('relatorio_produtos.pdf');
-    });
-}
-
-
-// Carregar a lista de produtos ao carregar a página
-window.onload = fetchProducts;
-
+        // Carregar a lista de produtos ao carregar a página
+        window.onload = fetchProducts;
     </script>
 </body>
 </html>
