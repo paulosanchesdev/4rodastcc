@@ -29,7 +29,7 @@
       width: 30%;
       position: fixed;
       top: 26%;
-      left: 1%;
+      left: 2%;
       transform: translateY(-50%);
       opacity: 0.8;
     }
@@ -46,55 +46,19 @@
     }
 
     .audiobotao {
+    cursor: pointer;
     display: inline-block;
-    transition: transform 0.2s ease;
+    transition: transform 0.1s ease;
     top: 50%;
+    border: #F2AC57;
+    width: 40%;
+    margin-left: 0;
+
     }
 
-    .audiobotao:hover {
-        transform: scale(1.1);
-    }
+   
 
-            .mensagem {
-            opacity: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 2px solid white; /* Cursor effect */
-            width: 0;
-            margin-left: 5%;
-            transition: opacity 0.3s ease;
-        }
-
-        .audiobotao:hover .mensagem {
-            animation: typing 4s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
-            opacity: 1;
-        }
-
-        .mensagem span {
-          display: block; /* Cada linha ocupa seu próprio bloco */
-          white-space: nowrap;
-          overflow: hidden;
-          border-right: 2px solid white; /* Cursor effect */
-          width: 0;
-          animation: typing 2s steps(40, end) forwards, blink-caret 0.75s step-end infinite;
-      }
-
-      .mensagem span:nth-child(2) {
-          animation-delay: 2s; /* Delay for the second line */
-      }
-
-
-        /* Typing effect */
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        /* Cursor blink effect */
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: white; }
-        }
+          
 
   </style>
   <title>Seu Site</title>
@@ -454,10 +418,8 @@ z-index:1000;" target="_blank">
 
 
         <div class="audiobotao" id="audioButton">
-          <img src="imagensp/fone.png.png" alt="Imagem Fixa">
-          <div class="mensagem" id="mensagem">
-            <span>Olá, tudo bem? </span>
-            <span>Eu sou uma API de voz</span>
+          <img src="imagensp/fone2.png" alt="Imagem Fixa">
+       
             </div>
       </div>
 
@@ -509,7 +471,7 @@ z-index:1000;" target="_blank">
     const audioButton = document.getElementById('audioButton');
     let speakCount = 0; // Counter to track how many times the message has been spoken
 
-    audioButton.addEventListener('mouseenter', function () {
+    audioButton.addEventListener('click', function () {
         if (speakCount < 2) {
             const msg = new SpeechSynthesisUtterance('Olá, tudo bem? Eu sou uma API de voz, clique em qualquer palavra que eu leio para você.');
             msg.lang = 'pt-BR';
@@ -693,23 +655,40 @@ z-index:1000;" target="_blank">
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const zoomableImages = document.querySelectorAll('.zoomable');
+        const buttons = document.querySelectorAll('.audio-button');
+        let speakCount = 0; // Contador para rastrear quantas vezes a mensagem foi falada
 
-      zoomableImages.forEach((image) => {
-        let isZoomed = false;
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                if (speakCount < 2) {
+                    const msg = new SpeechSynthesisUtterance('Olá, tudo bem? Eu sou uma API de voz, clique em qualquer palavra que eu leio para você.');
+                    msg.lang = 'pt-BR';
+                    window.speechSynthesis.speak(msg);
+                    speakCount++; // Incrementa o contador cada vez que a mensagem é falada
+                }
+            });
 
-        image.addEventListener('click', () => {
-          if (isZoomed) {
-            image.style.transform = 'scale(1)';
-            isZoomed = false;
-          } else {
-            image.style.transform = 'scale(1.7)';
-            isZoomed = true;
-          }
+            button.addEventListener('mouseenter', function (event) {
+                // Verifica se o evento de mouseenter ocorreu diretamente no botão de áudio
+                if (event.target === button) {
+                    button.classList.add('hovered'); // Adiciona uma classe para indicar que o botão está sendo hover
+                }
+            });
+
+            button.addEventListener('mouseleave', function () {
+                button.classList.remove('hovered'); // Remove a classe quando o mouse sai do botão
+            });
         });
-      });
+
+        // Adiciona um event listener de mouseenter para o grid
+        const grid = document.querySelector('.grid');
+        grid.addEventListener('mouseenter', function () {
+            buttons.forEach(button => {
+                button.classList.remove('hovered'); // Remove a classe hovered de todos os botões ao entrar no grid
+            });
+        });
     });
-  </script>
+</script>
 
 
 
