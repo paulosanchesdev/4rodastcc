@@ -15,6 +15,7 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
 
 
 
@@ -132,14 +133,16 @@
             background-color: #F2AC57;
         }
 
-        button#finalizarCompraBtn {
+        button2 {
             background-color: #4caf50;
+            margin-left: 25%;
             color: #ffffff;
             padding: 10px 20px;
             border: none;
             cursor: pointer;
             font-size: 1em;
             transition: background-color 0.3s ease;
+      
         }
 
         button#finalizarCompraBtn:hover {
@@ -444,7 +447,7 @@
         <label for="estado">Estado:</label>
         <input type="text" id="estado" name="estado" readonly>
 
-        <button type="button" id="finalizarCompraBtn" onclick="imprimirDados()">Finalizar Compra</button>
+        
     </form>
 
     <br>
@@ -509,28 +512,99 @@
 
     </script>
 
-    <script>
-       function imprimirDados() {
-    // Coletando os dados do formulário
-    var nome = document.getElementById('nome').value;
-    var cep = document.getElementById('cep').value;
-    var logradouro = document.getElementById('logradouro').value;
-    var numero = document.getElementById('numero').value;
-    var cidade = document.getElementById('cidade').value;
-    var estado = document.getElementById('estado').value;
-    var total = document.getElementById('total').innerText;
-    
+<script>
+    function enviarEmail() {
+        const assunto = 'Resumo da Compra';
+        const corpoEmail = `
+            Nome: ${nome}
+            CEP: ${cep}
+            Logradouro: ${logradouro}
+            Número: ${numero}
+            Cidade: ${cidade}
+            Estado: ${estado}
 
-    // Verificando se todos os campos necessários estão preenchidos
-    if (!nome || !cep || !logradouro || !numero || !cidade || !estado || !total) {
-        alert('Por favor, preencha todos os campos antes de finalizar a compra.');
-        return;
+            Total da Compra: R$ ${totalCompra.toFixed(2)}
+
+            Produtos Selecionados:
+            ${produtosContent}
+        `;
+
+        const link = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
+        window.location.href = link;
     }
-    
-    
-    // Criando o conteúdo HTML do pop-up
-    var popupContent = `
-        <div>
+
+    function imprimirProdutosSelecionados() {
+        const produtosSelecionados = [];
+        const checkboxes = document.querySelectorAll('.produto');
+        
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const id = checkbox.dataset.id;
+                const nomeProduto = checkbox.closest('tr').children[0].textContent;
+                const quantidade = document.querySelector(`.quantidade-checkbox[data-id="${id}"]`).value;
+                const precoUnitario = parseFloat(checkbox.dataset.preco);
+                const totalProduto = quantidade * precoUnitario;
+                
+                produtosSelecionados.push({
+                    nome: nomeProduto,
+                    quantidade: quantidade,
+                    precoUnitario: precoUnitario,
+                    total: totalProduto
+                });
+            }
+        });
+        
+        if (produtosSelecionados.length === 0) {
+            alert('Por favor, selecione pelo menos um produto.');
+            return;
+        }
+
+        let produtosContent = `
+            <h2>Produtos Selecionados</h2>
+            <table style="border-collapse: collapse; width: 100%; border: 1px solid #ccc;">
+                <thead style="background-color: #f2f2f2;">
+                    <tr>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Produto</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Quantidade</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Preço Unitário</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        produtosSelecionados.forEach(produto => {
+            produtosContent += `
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">${produto.nome}</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">${produto.quantidade}</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">R$ ${produto.precoUnitario.toFixed(2)}</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">R$ ${produto.total.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        produtosContent += `
+                </tbody>
+            </table>
+        `;
+
+        const totalCompra = produtosSelecionados.reduce((acc, produto) => acc + produto.total, 0);
+
+        const nome = document.getElementById('nome').value;
+        const cep = document.getElementById('cep').value;
+        const logradouro = document.getElementById('logradouro').value;
+        const numero = document.getElementById('numero').value;
+        const cidade = document.getElementById('cidade').value;
+        const estado = document.getElementById('estado').value;
+        const frete = document.getElementById('frete').value || 0; // Adiciona frete ou assume 0 se não preenchido
+
+        if (!nome || !cep || !logradouro || !numero || !cidade || !estado) {
+            alert('Por favor, preencha todos os campos antes de finalizar a compra.');
+            return;
+        }
+
+        const clienteContent = `
             <h2>Resumo da Compra</h2>
             <p><strong>Nome:</strong> ${nome}</p>
             <p><strong>CEP:</strong> ${cep}</p>
@@ -538,35 +612,65 @@
             <p><strong>Número:</strong> ${numero}</p>
             <p><strong>Cidade:</strong> ${cidade}</p>
             <p><strong>Estado:</strong> ${estado}</p>
-            <p id="total"> ${total} </p>
+            <p><strong>Total da Compra:</strong> R$ ${totalCompra.toFixed(2)}</p>
+        `;
 
-            <div id="qrcode"></div>
-        </div>
-    `;
+        const popupContent = `
+            <div style="font-family: Arial, sans-serif; padding: 20px;">
+                ${clienteContent}
+                <hr style="border-top: 1px solid #ccc; margin: 20px 0;">
+                <div class="produtos-wrapper">
+                    ${produtosContent}
+                </div>
+                
+                <p style="text-align: right; margin-top: 20px;"><strong>Total: R$ ${totalCompra.toFixed(2)}</strong></p>
 
-    // Abrindo o pop-up
-    var popupWindow = window.open('', '_blank', 'width=600,height=400');
-    popupWindow.document.body.innerHTML = popupContent;
+                <div class="pagar-wrapper">
+                    <div id="qrcode" style="margin-top: 20px;"></div>
+                    <button onclick="enviarEmail()" style="background-color: #4CAF50; /* Green */
+                    border: none;
+                    color: white;
+                    padding: 10px 20px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    margin: 4px 2px;
+                    cursor: pointer;
+                    border-radius: 4px;">PAGAR</button>
+                </div>
+            </div>
+        `;
 
-    // Gerando o QR Code com o total
-    var qrCodeDiv = popupWindow.document.getElementById('qrcode');
-    var qr = new QRCode(qrCodeDiv, {
-        text: total,
-        width: 200,
-        height: 200
+        const popupWindow = window.open('', '_blank', 'width=600,height=400');
+        popupWindow.document.write('<html><head><title>Resumo da Compra</title>');
+        popupWindow.document.write('<style>');
+        popupWindow.document.write('body { font-family: Arial, sans-serif; }');
+        popupWindow.document.write('.produtos-wrapper { flex: 1; }');
+        popupWindow.document.write('.pagar-wrapper { flex: 1; text-align: right; }');
+        popupWindow.document.write('</style>');
+        popupWindow.document.write('</head><body>');
+        popupWindow.document.write(popupContent);
+        popupWindow.document.write('</body></html>');
+        popupWindow.document.close();
+
+        const qrCodeDiv = popupWindow.document.getElementById('qrcode');
+        const qr = new QRCode(qrCodeDiv, {
+            text: `Total: R$ ${totalCompra.toFixed(2)}`,
+            width: 200,
+            height: 200
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const botaoImprimir = document.createElement('button2');
+        botaoImprimir.textContent = 'Finalizar Compra';
+        botaoImprimir.onclick = imprimirProdutosSelecionados;
+        document.body.appendChild(botaoImprimir);
     });
-}
-    </script>
+</script>
 
-    <script>
-        function expandirTexto(elemento) {
-            // Verifica se o texto está truncado
-            if (elemento.scrollWidth > elemento.clientWidth) {
-                // Cria um pop-up para mostrar o texto completo
-                alert(elemento.textContent);
-            }
-        }
-    </script>
+   
 
 
     <!--  INICIO ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
