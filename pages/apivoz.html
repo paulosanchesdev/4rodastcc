@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Botão com Animação e Fala</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+        body {
+    background-color: black;
+    color: white; /* Ajuste da cor do texto para melhor visibilidade */
+}
+
+.audiobotao {
+    display: inline-block;
+    transition: transform 0.3s ease;
+    position: relative;
+    text-align: center;
+    margin: 20px; /* Adicionando espaço em torno do botão */
+}
+
+.audiobotao:hover {
+    transform: scale(1.1);
+}
+
+.mensagem {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    width: 100%;
+    left: 8%;
+    bottom: -20px;
+    font-size: 25px;
+    color: white; /* Ajuste da cor do texto para melhor visibilidade */
+}
+
+.audiobotao:hover .mensagem {
+    opacity: 1;
+}
+        </style>
+    <div class="audiobotao" id="audioButton">
+        <img src="imagensp/fone.png.png" alt="Imagem Fixa">
+        <div class="mensagem" id="mensagem">Olá, tudo bem? Eu sou uma API de voz</div>
+    </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const audioButton = document.getElementById('audioButton');
+    
+        audioButton.addEventListener('mouseenter', function () {
+            const msg = new SpeechSynthesisUtterance('Olá, tudo bem? eu sou uma API de voz, clique em qualquer palavra que eu leio para você.');
+            msg.lang = 'pt-BR';
+            window.speechSynthesis.speak(msg);
+        });
+    });
+    </script>
+</body>
+</html>

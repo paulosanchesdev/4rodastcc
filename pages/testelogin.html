@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Estilos CSS -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .lock-screen-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente */
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .lock-screen-popup {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    .lock-screen-popup input[type="password"] {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .lock-screen-popup button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .lock-screen-popup button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Conteúdo principal do index -->
+
+
+  <form id="password-form">
+    <input type="password" id="unlockPassword" placeholder="Senha" required>
+    <button type="button" onclick="openLockScreen()">Desbloquear</button>
+  </form>
+
+  <!-- Popup de senha (inicialmente oculto) -->
+  <div id="lock-screen" class="lock-screen-overlay">
+    <div class="lock-screen-popup">
+      
+  </div>
+
+  <!-- Script JavaScript -->
+  <script>
+    // Função para abrir o popup de senha
+    function openLockScreen() {
+      document.getElementById('lock-screen').style.display = 'flex';
+    }
+
+    // Função para verificar a senha e fechar o popup
+    function unlockScreen() {
+      const password = document.getElementById('unlockPasswordPopup').value;
+
+      // Lógica de verificação da senha (exemplo: senha '1234')
+      if (password === '1234') {
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('password-form').submit(); // Envie o formulário principal após desbloquear
+      } else {
+        alert('Senha incorreta. Tente novamente.');
+      }
+    }
+  </script>
+<div id="content">
+    <main class="site-wrapper">
+      <link rel="stylesheet" href="style.css">
+      <div class="pt-table desktop-768">
+
+        <div class="overlay"></div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+              <div class="page-title  home text-center">
+                <div class="logo">
+                  <img src="imagensp/4Rcortado.gif.gif" alt="Logo" class="logo" width="50%">
+                </div>
+
+                <div class="hexagon-menu clear">
+                  <div class="hexagon-item" width="30%">
+                    <div class="hex-item">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <div class="hex-item">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <a href="pages/home_usuario." class="hex-content">
+                      <span class="hex-content-inner">
+                        <span class="icon">
+
+                        </span>
+                        <span class="title">Home</span>
+                      </span>
+                      <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772
+                                                        150L86.60254037844386 200L0 150L0 50Z" fill="#1e2530"></path>
+                      </svg>
+
+
+                    </a>
+                  </div>
+                  <div class="hexagon-item" width="50%">
+                    <div class="hex-item">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <div class="hex-item">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <a href="pages/logincadastro.html" class="hex-content" target="_blank">
+                      <span class="hex-content-inner">
+                        <span class="icon">
+
+                        </span>
+                        <span class="title">Produtos</span>
+                      </span>
+                      <svg viewBox="0 0 173.20508075688772 200" height="200" width="174" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z"
+                          fill="#1e2530"></path>
+                      </svg>
+                    </a>
+                  </div>
+                  <div class="hexagon-item">
+                    <div class="hex-item">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <div class="hex-item">
+                      <div></div>
+                      <div></div>
+                      <div></div>
+                    </div>
+                    <a href="pages/Sobre_.html" class="hex-content" target="_blank">
+                 
+                      <span class="hex-content-inner">
+                        <span class="icon">
+
+</body>
+</html>
