@@ -671,7 +671,15 @@
 </script>
 
    
-
+<script>
+    function expandirTexto(elemento) {
+        // Verifica se o texto está truncado
+        if (elemento.scrollWidth > elemento.clientWidth) {
+            // Cria um pop-up para mostrar o texto completo
+            alert(elemento.textContent);
+        }
+    }
+</script>
 
     <!--  INICIO ESTOQUE FIREBASE________________________________________________________________________________________________________ -->
 
