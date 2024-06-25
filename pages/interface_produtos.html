@@ -513,26 +513,7 @@
     </script>
 
 <script>
-    function enviarEmail() {
-        const assunto = 'Resumo da Compra';
-        const corpoEmail = `
-            Nome: ${nome}
-            CEP: ${cep}
-            Logradouro: ${logradouro}
-            Número: ${numero}
-            Cidade: ${cidade}
-            Estado: ${estado}
-
-            Total da Compra: R$ ${totalCompra.toFixed(2)}
-
-            Produtos Selecionados:
-            ${produtosContent}
-        `;
-
-        const link = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
-        window.location.href = link;
-    }
-
+    
     function imprimirProdutosSelecionados() {
         const produtosSelecionados = [];
         const checkboxes = document.querySelectorAll('.produto');
