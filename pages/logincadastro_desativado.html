@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,8 @@
         integrity="sha512-eBHL6QJNHC7ZvfB4o2/MT5BZw2PI2eElJZ4tLEL7Nxl2lAOxr3sh2bC/x6L/G2bCEIYWWaYGsHvOQGsY+NM7Zg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="icon" type="image/png" href="imagensp/favroda.png.png">
+        <link rel="icon" type="image/png" href="imagensp/favroda.png.png">
+
     <title>Login</title>
     <style>
         body {
@@ -34,7 +36,9 @@
 
         #authForm button {
             margin-top: 10px;
+            /* ou qualquer valor que você preferir */
             margin-bottom: 10px;
+            /* ou qualquer valor que você preferir */
         }
 
         #authForm h2 {
@@ -59,7 +63,9 @@
         }
 
         button:hover {
-            background-color: #F2AC57;
+        background-color: #F2AC57
+        
+          /* Cor de fundo alterada quando o mouse está sobre o botão */
         }
 
         #secretContent {
@@ -81,7 +87,6 @@
             margin-top: 0;
             opacity: 0.8;
         }
-
         #forgotPasswordButton:hover {
             background-color: #F2AC57;
             margin-top: 0;
@@ -94,6 +99,8 @@
 </head>
 
 <body>
+
+
     <div id="authForm">
         <h2>Faça a sua melhor compra!</h2>
         <input type="email" placeholder="email" id="userEmail">
@@ -102,11 +109,13 @@
         <button id="signInButton">Entrar</button>
         <button id="forgotPasswordButton">Esqueci minha senha</button>
     </div>
+    
 
     <div id="secretContent">
         <h3 class="exclusiva">Área exclusiva para usuários cadastrados</h3> <br>
         <button id="signOutButton">Entrar</button>
     </div>
+
 
     <script type="module">
         // Import the functions you need from the SDKs you need
@@ -119,6 +128,8 @@
             signOut,
             sendPasswordResetEmail
         } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
 
         // Your web app's Firebase configuration
         const firebaseConfig = {
@@ -143,9 +154,6 @@
         const signOutButton = document.querySelector("#signOutButton");
         const forgotPasswordButton = document.querySelector("#forgotPasswordButton");
 
-        // Lista de emails bloqueados
-        const emailBlacklist = ["contatopaulosanches@gmail.com"];
-
         secretContent.style.display = 'none';
 
         const userSignUp = async () => {
@@ -162,8 +170,8 @@
                     const errorMessage = error.message;
                     console.log(errorCode + errorMessage);
                     alert("Somente pessoas autorizadas.");
-                });
-        };
+                })
+        }
 
         const userSignIn = async () => {
             const signInEmail = userEmail.value;
@@ -179,10 +187,10 @@
                 console.log(errorCode + errorMessage);
                 alert("Somente pessoas autorizadas.");
             }
-        };
+        }
 
         const checkAuthState = async () => {
-            onAuthStateChanged(auth, (user) => {
+            onAuthStateChanged(auth, user => {
                 if (user) {
                     authForm.style.display = 'none';
                     secretContent.style.display = 'block';
@@ -191,20 +199,15 @@
                     secretContent.style.display = 'none';
                 }
             });
-        };
+        }
 
         const userSignOut = async () => {
             await signOut(auth);
-        };
+        }
 
         const resetPassword = async () => {
             const email = userEmail.value;
             if (email) {
-                // Verifica se o email está na lista de bloqueio
-                if (emailBlacklist.includes(email)) {
-                    alert("Redefinição de senha não permitida para este e-mail.");
-                    return;
-                }
                 sendPasswordResetEmail(auth, email)
                     .then(() => {
                         alert("Email de redefinição de senha enviado!");
@@ -216,7 +219,7 @@
             } else {
                 alert("Por favor, insira seu email.");
             }
-        };
+        }
 
         checkAuthState();
 
@@ -225,6 +228,7 @@
         signOutButton.addEventListener('click', userSignOut);
         forgotPasswordButton.addEventListener('click', resetPassword);
     </script>
+
 </body>
 
 </html>
