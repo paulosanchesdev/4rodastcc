@@ -23,7 +23,49 @@
 
 <body>
 
-    
+    <style>
+       .audiobotao {
+   
+   width: 20%;
+   position: absolute;
+   top: 70%;
+   left: 20.6%;
+   transform: translateY(-50%);
+   opacity: 0.8;
+   z-index: 1;
+ 
+
+ }
+
+ .audiobotao img {
+   width: 30%;
+   /* Ajuste conforme necessário */
+   height: auto;
+ 
+   /* Adicione borda se desejar */
+   border-radius: 50px;
+   padding: 5px;
+   filter: sepia(50%);
+   z-index: 1;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+   
+   transition: box-shadow 0.5s ease-in-out;
+   animation: glow 5s infinite alternate;
+
+}
+
+@keyframes glow {
+ 0% {
+     box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+     
+ }
+ 100% {
+     box-shadow: 0 0 10px #F2AC57;
+ }
+}
+ 
+
+    </style>
     
     
     
@@ -62,7 +104,7 @@
                       <div></div>
                       <div></div>
                     </div>
-                    <a class="hex-content">
+                    <a href="home_usuario.html" class="hex-content">
                       <span class="hex-content-inner">
                         <span class="icon">
 
@@ -142,7 +184,7 @@
                       <div></div>
                       <div></div>
                     </div>
-                    <a class="hex-content">
+                    <a href="contatos_.html" class="hex-content"target="_blank">
                       <span class="hex-content-inner">
                         <span class="icon">
 
@@ -376,12 +418,27 @@ z-index:1000;" target="_blank">
   
   
   
-  <div class="audiobotao">
+  <div class="audiobotao" id="audioButton">
+    <img src="imagensp/fonesemfundopreto.png" alt="fone">
+ 
+      </div>
+</div>
 
-    <button id="speakButton">🔊</button>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const audioButton = document.getElementById('audioButton');
+  let speakCount = 0; // Counter to track how many times the message has been spoken
 
-
-
+  audioButton.addEventListener('click', function () {
+      if (speakCount < 2) {
+          const msg = new SpeechSynthesisUtterance('Olá, tudo bem? Eu sou uma API de voz, clique em qualquer palavra que eu leio para você.');
+          msg.lang = 'pt-BR';
+          window.speechSynthesis.speak(msg);
+          speakCount++; // Increment the counter each time the message is spoken
+      }
+  });
+});
+    </script>
 
     <!-- iNICIO API DE VOZ_____________________________________________________________________________________________________ -->
 
@@ -511,11 +568,11 @@ z-index:1000;" target="_blank">
     </ul>
     <center>
       <ul class="menu-footer">
-        <li class="menu__item"><a class="menu__link" href="pages/cidades1.html" target="_blank">Cidades</a></li>
-        <li class="menu__item"><a class="menu__link" href="pages/marcas.html" target="_blank">Marcas</a></li>
+        <li class="menu__item"><a class="menu__link" href="cidades_.html" target="_blank">Cidades</a></li>
+        <li class="menu__item"><a class="menu__link" href="marcas_.html" target="_blank">Marcas</a></li>
         <li class="menu__item"><a class="menu__link" href="https://quatrorodas.abril.com.br/noticias/"
             target="_blank">Noticias</a></li>
-        <li class="menu__item"><a class="menu__link" href="pages/trabalheconosco.html" target="_blank">Trabalhe
+        <li class="menu__item"><a class="menu__link" href="trabalhe_conosco.html" target="_blank">Trabalhe
             conosco</a></li>
 
       </ul>
