@@ -165,6 +165,70 @@
             margin: 0 auto;
             margin-top: 1%;
         }
+        .audiobotao {
+   
+   width: 20%;
+   position: absolute;
+   top: 26%;
+   left: 30%;
+   transform: translateY(-50%);
+   opacity: 0.8;
+   z-index: 1;
+   
+   
+
+   }
+
+   .audiobotao img {
+   width: 30%;
+   /* Ajuste conforme necessário */
+   height: auto;
+   
+   /* Adicione borda se desejar */
+   border-radius: 50px;
+   padding: 5px;
+   filter: sepia(50%);
+   z-index: 1;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+   
+   transition: box-shadow 0.5s ease-in-out;
+   animation: glow 5s infinite alternate;
+
+   }
+
+   @keyframes glow {
+   0% {
+       box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+       
+   }
+   100% {
+       box-shadow: 0 0 10px #F2AC57;
+   }
+   }
+
+   
+   .voltar {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5%;
+            margin-left: 21%;
+            margin-top: 5%;
+        }
+
+        .voltar:hover {
+            background-color: #F2AC57;
+        }
+
+        
+
+
+
+
       
     </style>
 </head>
@@ -174,6 +238,38 @@
     <div class="logo1">
         <img src="imagensp/4Rcortado.gif.gif" alt="Logo" class="logo" width="50%">
     </div>
+
+    <button class="voltar" onclick="redirecionarParaMenu()">Menu</button>
+
+    <script>
+        function redirecionarParaMenu() {
+            window.location.href = "home_usuario.html";
+        }
+    </script>
+
+
+    <div class="audiobotao" id="audioButton">
+        <img src="imagensp/fonesemfundopreto.png" alt="fone">
+    
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const audioButton = document.getElementById('audioButton');
+    let speakCount = 0; // Counter to track how many times the message has been spoken
+
+    audioButton.addEventListener('click', function () {
+        if (speakCount < 2) {
+            const msg = new SpeechSynthesisUtterance('Olá, tudo bem? Eu sou uma API de voz, clique em qualquer palavra que eu leio para você.');
+            msg.lang = 'pt-BR';
+            window.speechSynthesis.speak(msg);
+            speakCount++; // Increment the counter each time the message is spoken
+        }
+    });
+    });
+        </script>
+        
     <div class="Content">
         <h1>Carrinho</h1>
 
