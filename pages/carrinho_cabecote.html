@@ -225,7 +225,25 @@
         }
 
         
+        
+        
+           /* Botão Finalizar */
+    .botao-finalizar {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-left: 25%;
+    margin-bottom: 10%;
+    
+    }
 
+    .botao-finalizar:hover {
+        background-color: #F2AC57;
+    }
+
+      /* Botão Finalizar */
 
 
 
@@ -520,7 +538,7 @@
         <label for="estado">Estado:</label>
         <input type="text" id="estado" name="estado" readonly>
 
-        <button type="button" id="finalizarCompraBtn" onclick="imprimirDados()">Finalizar Compra</button>
+
     </form>
 
     <br>
@@ -585,56 +603,146 @@
 
     </script>
 
-    <script>
-        // Função para imprimir dados em um pop-up e gerar QR Code
-        function imprimirDados() {
-            const titulo = document.querySelector('h1').textContent;
-            const total = document.getElementById('total').textContent;
-            const totalSemRotulo = total.replace('Total: ', '');  // Nova variável sem o rótulo
-            
-            
-
-            const endereco = `
-            Nome: ${document.getElementById('nome').value}<br>
-            CEP: ${document.getElementById('cep').value}<br>
-            Logradouro: ${document.getElementById('logradouro').value}
-            Número: ${document.getElementById('numero').value}<br>
-            Cidade: ${document.getElementById('cidade').value}<br>
-            Estado: ${document.getElementById('estado').value}<br>
-           
-        `;
-
-            // Criar um elemento canvas para o QR Code
-            const canvas = document.createElement('canvas');
-            canvas.id = 'qrcode-canvas';
-
-            // Configurar o QR Code com os dados do endereço
-            const qr = new QRious({
-                value: endereco,
-                size: 128,
-            });
-
-            // Criar uma imagem com o QR Code
-            const qrImage = new Image();
-            qrImage.src = qr.toDataURL();
-
-            const popupContent = `
-            <h2>${titulo}</h2>
-            <h3>Endereço:</h3>
-            <p>${endereco}</p>
-            <p><strong>Total:</strong> ${totalSemRotulo}</p>  <!-- Usando a nova variável -->
-            <h3>QR Code:</h3>
-            <img src="${qrImage.src}" alt="QR Code">
-        `;
-
-            const popupWindow = window.open('', '_blank', 'width=600,height=400,scrollbars=yes,resizable=yes');
-            popupWindow.document.open();
-            popupWindow.document.write('<html><head><title>Detalhes</title></head><body>');
-            popupWindow.document.write(popupContent);
-            popupWindow.document.write('</body></html>');
-            popupWindow.document.close();
+<script>
+    
+    function imprimirProdutosSelecionados() {
+        const produtosSelecionados = [];
+        const checkboxes = document.querySelectorAll('.produto');
+        
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const id = checkbox.dataset.id;
+                const nomeProduto = checkbox.closest('tr').children[0].textContent;
+                const quantidade = document.querySelector(`.quantidade-checkbox[data-id="${id}"]`).value;
+                const precoUnitario = parseFloat(checkbox.dataset.preco);
+                const totalProduto = quantidade * precoUnitario;
+                
+                produtosSelecionados.push({
+                    nome: nomeProduto,
+                    quantidade: quantidade,
+                    precoUnitario: precoUnitario,
+                    total: totalProduto
+                });
+            }
+        });
+        
+        if (produtosSelecionados.length === 0) {
+            alert('Por favor, selecione pelo menos um produto.');
+            return;
         }
-    </script>
+
+        let produtosContent = `
+            <h2>Produtos Selecionados</h2>
+            <table style="border-collapse: collapse; width: 100%; border: 1px solid #ccc;">
+                <thead style="background-color: #f2f2f2;">
+                    <tr>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Produto</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Quantidade</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Preço Unitário</th>
+                        <th style="padding: 10px; border: 1px solid #ccc;">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+        
+        produtosSelecionados.forEach(produto => {
+            produtosContent += `
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #ccc;">${produto.nome}</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">${produto.quantidade}</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">R$ ${produto.precoUnitario.toFixed(2)}</td>
+                    <td style="padding: 10px; border: 1px solid #ccc;">R$ ${produto.total.toFixed(2)}</td>
+                </tr>
+            `;
+        });
+
+        produtosContent += `
+                </tbody>
+            </table>
+        `;
+
+        const totalCompra = produtosSelecionados.reduce((acc, produto) => acc + produto.total, 0);
+
+        const nome = document.getElementById('nome').value;
+        const cep = document.getElementById('cep').value;
+        const logradouro = document.getElementById('logradouro').value;
+        const numero = document.getElementById('numero').value;
+        const cidade = document.getElementById('cidade').value;
+        const estado = document.getElementById('estado').value;
+        const frete = document.getElementById('frete').value || 0; // Adiciona frete ou assume 0 se não preenchido
+
+        if (!nome || !cep || !logradouro || !numero || !cidade || !estado) {
+            alert('Por favor, preencha todos os campos antes de finalizar a compra.');
+            return;
+        }
+
+        const clienteContent = `
+            <h2>Resumo da Compra</h2>
+            <p><strong>Nome:</strong> ${nome}</p>
+            <p><strong>CEP:</strong> ${cep}</p>
+            <p><strong>Logradouro:</strong> ${logradouro}</p>
+            <p><strong>Número:</strong> ${numero}</p>
+            <p><strong>Cidade:</strong> ${cidade}</p>
+            <p><strong>Estado:</strong> ${estado}</p>
+            <p><strong>Total da Compra:</strong> R$ ${totalCompra.toFixed(2)}</p>
+        `;
+
+        const popupContent = `
+            <div style="font-family: Arial, sans-serif; padding: 20px;">
+                ${clienteContent}
+                <hr style="border-top: 1px solid #ccc; margin: 20px 0;">
+                <div class="produtos-wrapper">
+                    ${produtosContent}
+                </div>
+                
+                <p style="text-align: right; margin-top: 20px;"><strong>Total: R$ ${totalCompra.toFixed(2)}</strong></p>
+
+                <div class="pagar-wrapper">
+                    <div id="qrcode" style="margin-top: 20px;"></div>
+                    <button onclick="enviarEmail()" style="background-color: #4CAF50; /* Green */
+                    border: none;
+                    color: white;
+                    padding: 10px 20px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    margin: 4px 2px;
+                    cursor: pointer;
+                    border-radius: 4px;">PAGAR</button>
+                </div>
+            </div>
+        `;
+
+        const popupWindow = window.open('', '_blank', 'width=600,height=400');
+        popupWindow.document.write('<html><head><title>Resumo da Compra</title>');
+        popupWindow.document.write('<style>');
+        popupWindow.document.write('body { font-family: Arial, sans-serif; }');
+        popupWindow.document.write('.produtos-wrapper { flex: 1; }');
+        popupWindow.document.write('.pagar-wrapper { flex: 1; text-align: right; }');
+        popupWindow.document.write('</style>');
+        popupWindow.document.write('</head><body>');
+        popupWindow.document.write(popupContent);
+        popupWindow.document.write('</body></html>');
+        popupWindow.document.close();
+
+        const qrCodeDiv = popupWindow.document.getElementById('qrcode');
+        const qr = new QRCode(qrCodeDiv, {
+            text: `Total: R$ ${totalCompra.toFixed(2)}`,
+            width: 200,
+            height: 200
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const botaoImprimir = document.createElement('button2');
+        botaoImprimir.textContent = 'Finalizar Compra';
+        botaoImprimir.className = 'botao-finalizar'; // Adicionando classe ao botão
+        botaoImprimir.onclick = imprimirProdutosSelecionados;
+        document.body.appendChild(botaoImprimir);
+    });
+</script>
+
 
     <script>
         function expandirTexto(elemento) {
